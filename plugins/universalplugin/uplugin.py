@@ -55,14 +55,10 @@ class Yes_Or_No(Gtk.MessageDialog):
     def check(self):
         rrun = self.run()
         if rrun == Gtk.ResponseType.OK:
-            if self.parent != None:
-                self.parent.set_sensitive(True)
             self.destroy()
             self.q.put(True)
             return True
         else:
-            if self.parent != None:
-                self.parent.set_sensitive(True)
             self.destroy()
             self.q.put(False)
             return False
@@ -165,9 +161,9 @@ class ThreadCheckInstallRemove(threading.Thread):
                 if not q.get():
                     del q
                     GLib.idle_add(self.label.set_markup,self.button_install_label)
+                    GLib.idle_add(self.spinner.stop)
                     if self.blockparent:
                         GLib.idle_add(self.parent.set_sensitive,True)
-                        GLib.idle_add(self.spinner.stop)
                     return
 
             GLib.idle_add(self.label.set_markup,self.runningmsg)
@@ -190,9 +186,9 @@ class ThreadCheckInstallRemove(threading.Thread):
                 if not q.get():
                     del q
                     GLib.idle_add(self.label.set_markup,self.button_remove_label)
+                    GLib.idle_add(self.spinner.stop)
                     if self.blockparent:
                         GLib.idle_add(self.parent.set_sensitive,True)
-                        GLib.idle_add(self.spinner.stop)
                     return
 
             GLib.idle_add(self.label.set_markup,self.runningmsg)
