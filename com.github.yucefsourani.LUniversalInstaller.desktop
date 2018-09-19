@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=LUniversalInstaller
+GenericName=LUniversalInstaller
+Comment=LUniversalInstaller
+Exec=/usr/bin/luniversalinstaller.py
+Icon=org.github.yucefsourani.LUniversalInstaller
+Terminal=false
+Type=Application
+StartupNotify=true
+Categories=GTK;Utility;
