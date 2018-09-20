@@ -28,7 +28,7 @@ import os
 import sys
 import gettext
 from site import addsitedir
-import sys
+
 
 
 __minor__ = sys.version_info.minor
