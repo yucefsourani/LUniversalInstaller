@@ -33,7 +33,7 @@ import sys
 import importlib
 
 __minor__ = sys.version_info.minor
-if __minor__>3:
+if __minor__>4:
     import importlib
 else:
     import imp
@@ -146,10 +146,15 @@ def new_get_plugins():
 
 
 
-def new_load_plugin(info):
-    module_ = importlib.machinery.SourceFileLoader(info[1],os.path.join(info[0],info[2])).load_module()
-    return module_
+"""def new_load_plugin(info):
+    module_ = importlib.machinery.SourceFileLoader(info[1],os.path.join(info[0],info[2])).exec_module(os.path.join(info[0],info[1]))
+    return module_"""
 
+def new_load_plugin(info):
+    spec   = importlib.util.spec_from_file_location(info[1],os.path.join(info[0],info[2]))
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
 
 
 def old_load_plugin(module_name):
