@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  example_plugin3.py
+#  example_plugin.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -21,7 +21,7 @@
 #  MA 02110-1301, USA.
 #  
 #  
-from universalplugin.uplugin import BasePlugin
+from universalplugin.uplugin import BasePlugin, write_to_tmp
 import subprocess
 import time
 import os
@@ -32,21 +32,21 @@ if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
-distro_name          = ["all"]
+distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Video</b>"
-category_icon_theme  = "applications-graphics"
+category             = "<b>Utils</b>"
+category_icon_theme  = "preferences-other"
 
 class Plugin(BasePlugin):
-    __gtype_name__ = "__installxterm__" #uniq name and no space
+    __gtype_name__ = "__installremovedukto__" #uniq name and no space
     def __init__(self,parent):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="xterm-color.png",
-                            button_install_label="Install Xterm",
-                            button_remove_label="Remove Xterm",
-                            buttontooltip="Install Remove Xterm",
+                            button_image="dukto.png",
+                            button_install_label="Install Dukto",
+                            button_remove_label="Remove Dukto",
+                            buttontooltip="Install Remove Dukto",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,16 +58,21 @@ class Plugin(BasePlugin):
 
 
     def check(self):
-        time.sleep(3)
-        return not os.path.isfile("/usr/bin/xterm")
+        return not os.path.isfile("/usr/bin/dukto")
         
     def install(self):
-        if subprocess.call("pkexec dnf install xterm -y --best",shell=True)==0:
+        if os.path.isfile("/etc/yum.repos.d/home:colomboem.repo"):
+            commands = ["dnf install dukto -y --best"]
+        else:
+            commands = ["dnf config-manager --add-repo https://download.opensuse.org/repositories/home:colomboem/RHEL_7/home:colomboem.repo",
+            "dnf install dukto -y --best"]
+        to_run = write_to_tmp(commands)
+        if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True
         return False
         
     def remove(self):
-        if subprocess.call("pkexec rpm --nodeps -e xterm",shell=True)==0:
+        if subprocess.call("pkexec rpm --nodeps -e dukto",shell=True)==0:
             return True
         return False
 

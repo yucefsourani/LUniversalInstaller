@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 #
-#  example_plugin5.py
+#  example_plugin1.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -32,21 +32,21 @@ if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
-distro_name          = ["all"]
+distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Audio</b>"
+category             = "<b>Multimedia</b>"
 category_icon_theme  = "applications-multimedia"
 
 class Plugin(BasePlugin):
-    __gtype_name__ = "__installxterm5__" #uniq name and no space
+    __gtype_name__ = "__installremoveflameshot__" #uniq name and no space
     def __init__(self,parent):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="xterm-color.png",
-                            button_install_label="Install Xterm",
-                            button_remove_label="Remove Xterm",
-                            buttontooltip="Install Remove Xterm",
+                            button_image="flameshot.png",
+                            button_install_label="Install Flameshot",
+                            button_remove_label="Remove Flameshot",
+                            buttontooltip="Install Remove Flameshot",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,16 +58,15 @@ class Plugin(BasePlugin):
 
 
     def check(self):
-        time.sleep(3)
-        return not os.path.isfile("/usr/bin/xterm")
+        return not os.path.isfile("/usr/bin/flameshot")
         
     def install(self):
-        if subprocess.call("pkexec dnf install xterm -y --best",shell=True)==0:
+        if subprocess.call("pkexec dnf install flameshot -y --best",shell=True)==0:
             return True
         return False
         
     def remove(self):
-        if subprocess.call("pkexec rpm --nodeps -e xterm",shell=True)==0:
+        if subprocess.call("pkexec rpm --nodeps -e flameshot",shell=True)==0:
             return True
         return False
 
