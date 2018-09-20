@@ -28,6 +28,8 @@ import threading
 import os
 from string import punctuation
 import queue
+import time
+import subprocess
 
 appname        = "luniversalinstaller"
 image_loction  = [l for l in [os.path.join(os.path.realpath(os.path.dirname(__file__)),"images"),os.path.join(os.path.realpath(os.path.dirname(__file__)),"../../images".format(appname))] if os.path.isdir(l)]
@@ -228,44 +230,44 @@ class BasePlugin(Gtk.Grid):
                 expand=False):
         Gtk.Grid.__init__(self,margin=margin,expand=expand)
         
-        self.parent               = parent
-        self.spacing              = spacing
-        self.button_image         = button_image
-        self.button_install_label = button_install_label
-        self.button_remove_label  = button_remove_label
-        self.buttontooltip        = buttontooltip
-        self.buttonsizewidth      = buttonsizewidth
-        self.buttonsizeheight     = buttonsizeheight
-        self.button_relief        = button_relief
-        self.blockparent          = blockparent
-        self.waitmsg              = waitmsg
-        self.runningmsg           = runningmsg
-        self.loadingmsg           = loadingmsg
-        self.ifinstallfailmsg     = ifinstallfailmsg
-        self.ifremovefailmsg      = ifremovefailmsg
-        self.ifinstallsucessmsg   = ifinstallsucessmsg
-        self.ifremovesucessmsg    = ifremovesucessmsg
-        self.beforeinstallyesorno = beforeinstallyesorno
-        self.beforeremoveyesorno  = beforeremoveyesorno
+        self.___parent               = parent
+        self.___spacing              = spacing
+        self.___button_image         = button_image
+        self.___button_install_label = button_install_label
+        self.___button_remove_label  = button_remove_label
+        self.___buttontooltip        = buttontooltip
+        self.___buttonsizewidth      = buttonsizewidth
+        self.___buttonsizeheight     = buttonsizeheight
+        self.___button_relief        = button_relief
+        self.___blockparent          = blockparent
+        self.___waitmsg              = waitmsg
+        self.___runningmsg           = runningmsg
+        self.___loadingmsg           = loadingmsg
+        self.___ifinstallfailmsg     = ifinstallfailmsg
+        self.___ifremovefailmsg      = ifremovefailmsg
+        self.___ifinstallsucessmsg   = ifinstallsucessmsg
+        self.___ifremovesucessmsg    = ifremovesucessmsg
+        self.___beforeinstallyesorno = beforeinstallyesorno
+        self.___beforeremoveyesorno  = beforeremoveyesorno
 
 
-        self.mainbox              = Gtk.VBox(spacing=self.spacing)
+        self.___mainbox              = Gtk.VBox(spacing=self.___spacing)
         
-        self.__button__           = Gtk.Button(always_show_image=True,relief=Gtk.ReliefStyle(self.button_relief))
-        self.__button__.connect("clicked",self.clicked)
+        self.__button__           = Gtk.Button(always_show_image=True,relief=Gtk.ReliefStyle(self.___button_relief))
+        self.__button__.connect("clicked",self.___clicked)
         try:
-            pixbuf=GdkPixbuf.Pixbuf.new_from_file_at_size(get_image_location(self.button_image),self.buttonsizewidth,self.buttonsizeheight)
+            ___pixbuf=GdkPixbuf.Pixbuf.new_from_file_at_size(get_image_location(self.___button_image),self.___buttonsizewidth,self.___buttonsizeheight)
         except Exception as e:
             print(e)
             try:
-                pixbuf = Gtk.IconTheme.get_default().load_icon(self.button_image,self.buttonsizewidth, Gtk.IconLookupFlags.FORCE_SIZE)
+                ___pixbuf = Gtk.IconTheme.get_default().load_icon(self.___button_image,self.___buttonsizewidth, Gtk.IconLookupFlags.FORCE_SIZE)
             except:
                 #failback
-                pixbuf = Gtk.IconTheme.get_default().load_icon("applications-accessories",self.buttonsizewidth, Gtk.IconLookupFlags.FORCE_SIZE)
-        image = Gtk.Image.new_from_pixbuf(pixbuf)
-        self.__button__.add(image)
-        if self.buttontooltip:
-            self.__button__.set_tooltip_markup(self.buttontooltip)
+                ___pixbuf = Gtk.IconTheme.get_default().load_icon("applications-accessories",self.___buttonsizewidth, Gtk.IconLookupFlags.FORCE_SIZE)
+        ___image = Gtk.Image.new_from_pixbuf(___pixbuf)
+        self.__button__.add(___image)
+        if self.___buttontooltip:
+            self.__button__.set_tooltip_markup(self.___buttontooltip)
     
 
         self.__spinner__          = Gtk.Spinner()
@@ -276,41 +278,57 @@ class BasePlugin(Gtk.Grid):
         self.__label__.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR )
         self.__label__.set_max_width_chars(14)
         self.__label__.set_justify(Gtk.Justification.CENTER)
-        ThreadCheck(self.check,self.__label__,
-                    self.button_remove_label,
-                    self.button_install_label,
-                    self.__spinner__,
-                    self.__button__,
-                    self.loadingmsg).start()
+        
         
     
-        self.mainbox.pack_start(self.__button__,True,True,0)
-        self.mainbox.pack_start(self.__label__,True,True,0)
-        self.mainbox.pack_start(self.__spinner__,True,True,0)
-        self.add(self.mainbox)
+        self.___mainbox.pack_start(self.__button__,True,True,0)
+        self.___mainbox.pack_start(self.__label__,True,True,0)
+        self.___mainbox.pack_start(self.__spinner__,True,True,0)
+        self.add(self.___mainbox)
 
+        self._init_()
+        ThreadCheck(self.check,self.__label__,
+                    self.___button_remove_label,
+                    self.___button_install_label,
+                    self.__spinner__,
+                    self.__button__,
+                    self.___loadingmsg).start()
+
+    def _init_(self):
+        pass
         
         
-    def clicked(self,button):
+    def ___clicked(self,button):
         ThreadCheckInstallRemove(func_check=self.check,
         func_install=self.install,
         func_remove=self.remove,
         label=self.__label__,
-        button_remove_label=self.button_remove_label,
-        button_install_label=self.button_install_label,
-        parent=self.parent,
+        button_remove_label=self.___button_remove_label,
+        button_install_label=self.___button_install_label,
+        parent=self.___parent,
         spinner=self.__spinner__,
-        blockparent=self.blockparent,
-        waitmsg=self.waitmsg,
-        runningmsg=self.runningmsg,
-        ifinstallfailmsg=self.ifinstallfailmsg,
-        ifremovefailmsg=self.ifremovefailmsg,
-        ifinstallsucessmsg=self.ifinstallsucessmsg,
-        ifremovesucessmsg=self.ifremovesucessmsg,
-        beforeinstallyesorno=self.beforeinstallyesorno,
-        beforeremoveyesorno=self.beforeremoveyesorno
+        blockparent=self.___blockparent,
+        waitmsg=self.___waitmsg,
+        runningmsg=self.___runningmsg,
+        ifinstallfailmsg=self.___ifinstallfailmsg,
+        ifremovefailmsg=self.___ifremovefailmsg,
+        ifinstallsucessmsg=self.___ifinstallsucessmsg,
+        ifremovesucessmsg=self.___ifremovesucessmsg,
+        beforeinstallyesorno=self.___beforeinstallyesorno,
+        beforeremoveyesorno=self.___beforeremoveyesorno
         ).start()
 
 def get_uniq_name(name):
     name = name.replace(" ","")
     return "".join([char for char in name if char not in punctuation])
+
+
+def write_to_tmp(commands):
+    time_now      = int(time.time()) * 4
+    file_to_write = "/tmp/{}.sh".format(time_now)
+    with open(file_to_write,"w") as mf:
+        for command in commands:
+            mf.write(command+"\n")
+    subprocess.call("chmod 755 "+file_to_write,shell=True)
+    return file_to_write
+    

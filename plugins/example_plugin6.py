@@ -62,7 +62,7 @@ class Plugin(BasePlugin):
                             beforeremoveyesorno="Remove Xterm Yes Or No",
                             expand=False)
 
-
+    
     def check(self):
         return not os.path.isfile("/usr/bin/xterm")
         

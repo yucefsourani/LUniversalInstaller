@@ -304,7 +304,8 @@ class AppWindow(Gtk.ApplicationWindow):
                 print(e)
                 print("Ignored >> Load {} Fail.".format(plugin))
                 continue
-        self.connect("key-press-event", self._on_key_press)
+        if len(self.switchcategory)>0:
+            self.connect("key-press-event", self._on_key_press)
 
 
     def on_activated_row(self, listbox,listboxrow):
