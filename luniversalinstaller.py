@@ -141,7 +141,7 @@ def load_plugin(module_name):
 class AppWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.resize(975, 645)
+        self.resize(850, 645)
 
         self.init()
         
