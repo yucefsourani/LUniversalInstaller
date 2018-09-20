@@ -170,7 +170,7 @@ def old_load_plugin(module_name):
             module_hdl.close()
     return plugin
 
-if __minor__>3:
+if __minor__>4:
     get_plugins = new_get_plugins
     load_plugin = new_load_plugin
 else:
