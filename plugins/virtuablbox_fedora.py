@@ -125,3 +125,5 @@ class Plugin(BasePlugin):
                 if l.startswith("VERSION_ID"):
                     result=l.split("=",1)[1].strip()
         return result.replace("\"","").replace("'","")
+
+
