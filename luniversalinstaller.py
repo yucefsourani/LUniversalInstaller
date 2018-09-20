@@ -27,8 +27,18 @@ from gi.repository import Gtk, Gdk, GdkPixbuf, Gio
 import os
 import sys
 import gettext
-import imp
 from site import addsitedir
+import sys
+
+import importlib
+
+__minor__ = sys.version_info.minor
+if __minor__>3:
+    import importlib
+else:
+    import imp
+
+
 
 MENU_XML="""
 <?xml version="1.0" encoding="UTF-8"?>
@@ -105,7 +115,7 @@ def get_distro_version():
                 result=l.split("=",1)[1].strip()
     return result.replace("\"","").replace("'","")
 
-def get_plugins():
+def old_get_plugins():
     """Searches the plugins folders"""
     depl = []
     result = []
@@ -118,8 +128,31 @@ def get_plugins():
                     result.append(os.path.join(plugin_folder,module_name))
                     depl.append(module_file)
     return result
-    
-def load_plugin(module_name):
+
+
+def new_get_plugins():
+    """Searches the plugins folders"""
+    depl = []
+    result = []
+    for plugin_folder in plugins_location:
+        addsitedir(plugin_folder)
+        for  module_file in os.listdir(plugin_folder):
+            if module_file.endswith(".py") and os.path.isfile(os.path.join(plugin_folder,module_file)):
+                if module_file not in depl:
+                    module_name, module_extension = os.path.splitext(module_file)
+                    result.append((plugin_folder,module_name,module_file))
+                    depl.append(module_file)
+    return result
+
+
+
+def new_load_plugin(info):
+    module_ = importlib.machinery.SourceFileLoader(info[1],os.path.join(info[0],info[2])).load_module()
+    return module_
+
+
+
+def old_load_plugin(module_name):
     """import valid plugin"""
     try:
         module_hdl, plugin_path_name, description = imp.find_module(module_name)
@@ -131,10 +164,14 @@ def load_plugin(module_name):
     finally:
         if module_hdl:
             module_hdl.close()
-    
     return plugin
 
-
+if __minor__>3:
+    get_plugins = new_get_plugins
+    load_plugin = new_load_plugin
+else:
+    get_plugins = old_get_plugins
+    load_plugin = old_load_plugin
 
 
 
