@@ -30,6 +30,7 @@ from string import punctuation
 import queue
 import time
 import subprocess
+import tempfile
 
 appname        = "luniversalinstaller"
 image_loction  = [l for l in [os.path.join(os.path.realpath(os.path.dirname(__file__)),"images"),os.path.join(os.path.realpath(os.path.dirname(__file__)),"../../images".format(appname))] if os.path.isdir(l)]
@@ -325,7 +326,7 @@ def get_uniq_name(name):
 
 def write_to_tmp(commands):
     time_now      = int(time.time()) * 4
-    file_to_write = "/tmp/{}.sh".format(time_now)
+    file_to_write = os.path.join(tempfile.gettempdir(),"{}.sh".format(time_now))
     with open(file_to_write,"w") as mf:
         for command in commands:
             mf.write(command+"\n")

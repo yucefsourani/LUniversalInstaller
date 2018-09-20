@@ -39,7 +39,6 @@ category_icon_theme = "applications-system"
 
 def issecureboot():
     out = subprocess.Popen("mokutil --sb-state &>/dev/null",shell=True,stdout=subprocess.PIPE).communicate()[0].decode("utf-8").strip()
-    print(out)
     if out == "SecureBoot enabled":
         return True
     else:
