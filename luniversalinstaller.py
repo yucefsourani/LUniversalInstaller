@@ -30,7 +30,6 @@ import gettext
 from site import addsitedir
 import sys
 
-import importlib
 
 __minor__ = sys.version_info.minor
 if __minor__>4:
