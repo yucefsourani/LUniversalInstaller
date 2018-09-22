@@ -296,8 +296,9 @@ class AppWindow(Gtk.ApplicationWindow):
                             category_icon = Gtk.IconTheme.get_default().load_icon("applications-accessories",32, Gtk.IconLookupFlags.FORCE_SIZE)
                             
                     category_icon  = Gtk.Image.new_from_pixbuf(category_icon)
-                    category_label = Gtk.Label(category)
+                    category_label = Gtk.Label()
                     category_label.props.use_markup=True
+                    category_label.set_text(category)
                     cb.pack_start(category_icon,False,False,0)
                     cb.pack_start(category_label,False,False,0)
                     
