@@ -302,8 +302,8 @@ class AppWindow(Gtk.ApplicationWindow):
                     cb.pack_start(category_icon,False,False,0)
                     cb.pack_start(category_label,False,False,0)
                     
-                    cb.set_margin_left(10)
-                    cb.set_margin_right(70)
+                    cb.set_margin_start(10)
+                    cb.set_margin_end(70)
                     grid__=Gtk.Grid()
                     grid__.add(cb)
                     row_ = Gtk.ListBoxRow(activatable=True)
@@ -317,8 +317,8 @@ class AppWindow(Gtk.ApplicationWindow):
                     hboxrevealer  = Gtk.HBox()
                     hboxrevealer.pack_start(revealer,True,False,0)
                     entry         = Gtk.SearchEntry(placeholder_text="Search...")
-                    entry.props.margin_left = 15
-                    entry.props.margin_right = 15
+                    entry.props.margin_start = 15
+                    entry.props.margin_end = 15
                     entry.props.margin_top = 5
                     entry.props.margin_bottom = 5
                     revealer.add(entry)
