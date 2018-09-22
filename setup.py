@@ -10,7 +10,7 @@ doc_files  = ['LICENSE',  'README.md']
 data_files = [
               ('share/applications/', ['com.github.yucefsourani.LUniversalInstaller.desktop']),
               ('share/doc/luniversalinstaller', doc_files),
-	      ('share/luniversalinstaller/plugins', glob('plugins/*.py')),
+          ('share/luniversalinstaller/plugins', glob('plugins/*.py')),
               ('share/luniversalinstaller/plugins/universalplugin', glob('plugins/universalplugin/*.py')),
               ('share/luniversalinstaller/images', glob('images/*')),
               ('share/icons/hicolor/16x16/apps/', ['hicolor/16x16/apps/com.github.yucefsourani.LUniversalInstaller.png']),
@@ -43,6 +43,6 @@ setup(
           'Operating System :: POSIX :: Linux',
           'Development Status :: 4 - Beta ',
           'Intended Audience :: End Users/Desktop',
-			],
+            ],
       data_files=data_files
 )
