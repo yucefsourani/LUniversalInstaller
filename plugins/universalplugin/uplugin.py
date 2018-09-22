@@ -92,8 +92,8 @@ class NInfo(Gtk.MessageDialog):
 class ThreadCheck(threading.Thread):
     def __init__(self,func_check,label,
                button_remove_label,button_install_label,
-               spinner,button,loadingmsg):
-        threading.Thread.__init__(self)
+               spinner,button,loadingmsg,daemon):
+        threading.Thread.__init__(self,daemon=daemon)
         self.func_check           = func_check
         self.label                = label
         self.button_remove_label  = button_remove_label
@@ -122,9 +122,9 @@ class ThreadCheckInstallRemove(threading.Thread):
                spinner,blockparent,waitmsg,runningmsg,
                ifinstallfailmsg,ifremovefailmsg,
                ifinstallsucessmsg,ifremovesucessmsg,
-               beforeinstallyesorno,beforeremoveyesorno):
+               beforeinstallyesorno,beforeremoveyesorno,daemon):
                    
-        threading.Thread.__init__(self)
+        threading.Thread.__init__(self,daemon=daemon)
         self.func_check           = func_check
         self.func_install         = func_install
         self.func_remove          = func_remove
@@ -142,6 +142,7 @@ class ThreadCheckInstallRemove(threading.Thread):
         self.ifremovesucessmsg    = ifremovesucessmsg
         self.beforeinstallyesorno = beforeinstallyesorno
         self.beforeremoveyesorno  = beforeremoveyesorno
+
 
     def info__(self,msg):
         msg = NInfo(msg,self.parent)
@@ -230,7 +231,8 @@ class BasePlugin(Gtk.Grid):
                 ifremovesucessmsg="",
                 beforeinstallyesorno="",
                 beforeremoveyesorno="",
-                expand=False):
+                expand=False,
+                daemon=False):
         Gtk.Grid.__init__(self,margin=margin,expand=expand)
         
         self.___parent               = parent
@@ -252,9 +254,10 @@ class BasePlugin(Gtk.Grid):
         self.___ifremovesucessmsg    = ifremovesucessmsg
         self.___beforeinstallyesorno = beforeinstallyesorno
         self.___beforeremoveyesorno  = beforeremoveyesorno
+        self.__daemon                = daemon
 
-
-        self.___mainbox              = Gtk.VBox(spacing=self.___spacing)
+        
+        self.__mainbox__             = Gtk.VBox(spacing=self.___spacing)
         
         self.__button__           = Gtk.Button(always_show_image=True,relief=Gtk.ReliefStyle(self.___button_relief))
         self.__button__.connect("clicked",self.___clicked)
@@ -274,6 +277,7 @@ class BasePlugin(Gtk.Grid):
     
 
         self.__spinner__          = Gtk.Spinner()
+        self.__progressbar__      = Gtk.ProgressBar()
         
         
         self.__label__            = Gtk.Label()
@@ -285,10 +289,10 @@ class BasePlugin(Gtk.Grid):
         
         
     
-        self.___mainbox.pack_start(self.__button__,True,True,0)
-        self.___mainbox.pack_start(self.__label__,True,True,0)
-        self.___mainbox.pack_start(self.__spinner__,True,True,0)
-        self.add(self.___mainbox)
+        self.__mainbox__.pack_start(self.__button__,True,True,0)
+        self.__mainbox__.pack_start(self.__label__,True,True,0)
+        self.__mainbox__.pack_start(self.__spinner__,True,True,0)
+        self.add(self.__mainbox__)
 
         self._init_()
         ThreadCheck(self.check,self.__label__,
@@ -296,7 +300,7 @@ class BasePlugin(Gtk.Grid):
                     self.___button_install_label,
                     self.__spinner__,
                     self.__button__,
-                    self.___loadingmsg).start()
+                    self.___loadingmsg,self.__daemon).start()
 
     def _init_(self):
         pass
@@ -319,8 +323,12 @@ class BasePlugin(Gtk.Grid):
         ifinstallsucessmsg=self.___ifinstallsucessmsg,
         ifremovesucessmsg=self.___ifremovesucessmsg,
         beforeinstallyesorno=self.___beforeinstallyesorno,
-        beforeremoveyesorno=self.___beforeremoveyesorno
+        beforeremoveyesorno=self.___beforeremoveyesorno,
+        daemon=self.__daemon
         ).start()
+
+
+
 
 def get_uniq_name(name):
     name = name.replace(" ","")
