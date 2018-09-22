@@ -76,7 +76,7 @@ class Plugin(BasePlugin):
                             runningmsg="Running...",
                             loadingmsg="Loading...",
                             ifinstallfailmsg="Install VirtualBox Failed",
-                            ifremovefailmsg="Remove VirtualBox Failed",
+                            ifremovefailmsg="<b>Remove VirtualBox Failed</b>",
                             ifinstallsucessmsg=ifinstallsucessmsg,
                             expand=False)
 

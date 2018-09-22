@@ -44,7 +44,8 @@ def get_image_location(image_name):
 
 class Yes_Or_No(Gtk.MessageDialog):
     def __init__(self,msg,q,parent=None):
-        Gtk.MessageDialog.__init__(self,parent,flags=Gtk.DialogFlags.MODAL,type=Gtk.MessageType.QUESTION,buttons=Gtk.ButtonsType.OK_CANCEL,message_format=msg,use_markup=True)
+        Gtk.MessageDialog.__init__(self,parent,flags=Gtk.DialogFlags.MODAL,type=Gtk.MessageType.QUESTION,buttons=Gtk.ButtonsType.OK_CANCEL,message_format=msg)
+        self.props.use_markup=True
         self.q  = q
         self.parent=parent
         if self.parent != None:
@@ -69,7 +70,8 @@ class Yes_Or_No(Gtk.MessageDialog):
 
 class NInfo(Gtk.MessageDialog):
     def __init__(self,message,parent=None):
-        Gtk.MessageDialog.__init__(self,parent,1,Gtk.MessageType.INFO,Gtk.ButtonsType.OK,message,use_markup=True)
+        Gtk.MessageDialog.__init__(self,parent,1,Gtk.MessageType.INFO,Gtk.ButtonsType.OK,message)
+        self.props.use_markup=True
         self.parent=parent
         if self.parent != None:
             self.set_transient_for(self.parent)
@@ -274,7 +276,8 @@ class BasePlugin(Gtk.Grid):
         self.__spinner__          = Gtk.Spinner()
         
         
-        self.__label__            = Gtk.Label(use_markup=True)
+        self.__label__            = Gtk.Label()
+        self.__label__.props.use_markup=True
         self.__label__.set_line_wrap(True)
         self.__label__.set_line_wrap_mode(Pango.WrapMode.WORD_CHAR )
         self.__label__.set_max_width_chars(14)
