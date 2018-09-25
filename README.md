@@ -13,3 +13,7 @@ Python+Gtk  Universal Installer
 ![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot2.png "Screenshot")
 
 
+# New with Vte Support (if exists)
+
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot3.jpg "Screenshot")
+
