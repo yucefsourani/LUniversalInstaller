@@ -1,9 +1,9 @@
 [Desktop Entry]
-Name=LUniversalInstaller
-GenericName=LUniversalInstaller
-Comment=LUniversalInstaller
+Name=LUniversal Installer
+GenericName=LUniversal Installer
+Comment=LUniversal Installer
 Exec=/usr/bin/luniversalinstaller.py
-Icon=org.github.yucefsourani.LUniversalInstaller
+Icon=com.github.yucefsourani.LUniversalInstaller
 Terminal=false
 Type=Application
 StartupNotify=true
