@@ -17,3 +17,18 @@ Python+Gtk  Universal Installer
 
 ![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot3.jpg "Screenshot")
 
+# Install 
+
+cd && git clone https://github.com/yucefsourani/LUniversalInstaller
+
+cd ~/LUniversalInstaller
+
+sudo ./setup.py install
+
+
+# Install on Fedora
+
+ sudo dnf copr enable youssefmsourani/luniversalinstaller -y
+ 
+ sudo dnf install luniversalinstaller -y
+
