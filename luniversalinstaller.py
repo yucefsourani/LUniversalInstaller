@@ -207,6 +207,45 @@ class AppWindow(Gtk.ApplicationWindow):
         self.loading_all_plugins()
             
         self.listbox_.connect("row-activated",self.on_activated_row)
+        try:
+            gi.require_version('Vte', '2.91')
+            from gi.repository import Vte
+            tscrolledwindow = Gtk.ScrolledWindow()
+            self.terminal = Vte.Terminal()
+            
+            #self.terminal.set_color_background(Gdk.RGBA(red=0.180392, green=0.203922, blue=0.211765, alpha=1.000000))
+            self.terminal.set_color_foreground(Gdk.RGBA(red=0.988235, green=0.913725, blue=0.309804, alpha=1.000000))
+            vadjustment = self.terminal.get_vadjustment()
+            tscrolledwindow.set_vadjustment(vadjustment)
+            _pty = Vte.Pty.new_sync(Vte.PtyFlags(0),None)
+            _pty.child_setup()
+            self.terminal.set_pty(_pty)
+            
+            self.terminal.connect("button-release-event",self.on_button_event)
+            
+            self.menu = Gtk.Menu()
+            self.menu.set_screen(Gdk.Screen().get_default())
+            
+            self.copytextmenuitem = Gtk.MenuItem.new_with_label("Copy")
+            cursorcolormenuitem = Gtk.MenuItem.new_with_label("Cursor Color")
+            backgroundmenuitem = Gtk.MenuItem.new_with_label("Backgound Color")
+            foregroundmenuitem = Gtk.MenuItem.new_with_label("Foreground Color")
+            
+            self.copytextmenuitem.connect("activate", self.copy_text)
+            cursorcolormenuitem.connect("activate", self.on_cursor_menuitem_activated)
+            backgroundmenuitem.connect("activate", self.on_background_menuitem_activated)
+            foregroundmenuitem.connect("activate", self.on_foreground_menuitem_activated)
+            
+            self.menu.append(self.copytextmenuitem)
+            self.menu.append(cursorcolormenuitem)
+            self.menu.append(backgroundmenuitem)
+            self.menu.append(foregroundmenuitem)
+            
+            self.vte_format = Vte.Format(1)
+            tscrolledwindow.add(self.terminal)
+            self.maincontainer.pack_end(tscrolledwindow,True,True,0)
+        except Exception as e:
+            print(e)
         self.show_all()
 
         
@@ -353,6 +392,44 @@ class AppWindow(Gtk.ApplicationWindow):
 
     def on_activated_row(self, listbox,listboxrow):
         self.stack.set_visible_child_name(self.switchcategory[listboxrow]) # ==category name == mainbox for this category name
+        
+        
+    def copy_text(self,w):
+        self.terminal.copy_clipboard_format(self.vte_format)
+
+        
+    def on_button_event(self,terminal,event):
+        if not  self.terminal.get_has_selection():
+            self.copytextmenuitem.set_sensitive(False)
+        else:
+            self.copytextmenuitem.set_sensitive(True)
+            
+        if  event.button==3:
+            self.menu.popup_at_pointer()
+            self.menu.show_all()
+
+    def on_cursor_menuitem_activated(self,menuitem):
+        colorchooserdialog = Gtk.ColorChooserDialog(parent=self)
+        if colorchooserdialog.run() == Gtk.ResponseType.OK:
+            color = colorchooserdialog.get_rgba()
+            self.terminal.set_color_cursor(color)
+        colorchooserdialog.destroy()
+        
+        
+    def on_background_menuitem_activated(self,menuitem):
+        colorchooserdialog = Gtk.ColorChooserDialog(parent=self)
+        if colorchooserdialog.run() == Gtk.ResponseType.OK:
+            color = colorchooserdialog.get_rgba()
+            self.terminal.set_color_background(color)
+        colorchooserdialog.destroy()
+
+    def on_foreground_menuitem_activated(self,menuitem):
+        colorchooserdialog = Gtk.ColorChooserDialog(parent=self)
+        if colorchooserdialog.run() == Gtk.ResponseType.OK:
+            color = colorchooserdialog.get_rgba()
+            self.terminal.set_color_foreground(color)
+        colorchooserdialog.destroy()
+        
 
 class Application(Gtk.Application):
 
