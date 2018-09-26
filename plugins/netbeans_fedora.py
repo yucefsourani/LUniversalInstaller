@@ -67,6 +67,8 @@ class Plugin(BasePlugin):
                             ifinstallfailmsg="Install NetBeans 8.2 Failed",
                             ifinstallsucessmsg="Install NetBeans 8.2 Done",
                             ifremovesucessmsg="Remove NetBeans 8.2 Done",
+                            beforeinstallyesorno="Start Install ?",
+                            beforeremoveyesorno="Start Remove?",
                             expand=False,
                             daemon=True)
 
@@ -103,11 +105,11 @@ class Plugin(BasePlugin):
         if subprocess.call("chmod 755 {}".format(pro_saveas),shell=True)!=0:
             print("'chmod 755 {}' Failed.".format(pro_saveas))
             return False
-        if subprocess.call("{} --silent \"-J-Dnb-base.installation.location={}\" \"-J-Dnb-base.jdk.location=/usr/lib/jvm/jre-openjdk\" ".format(pro_saveas,location),shell=True)!=0:
-        #if subprocess.call("sh {}  --extract={} --javahome=/usr/lib/jvm/jre-openjdk".format(pro_saveas,location),shell=True)!=0:
+        if subprocess.call("{} --silent \"-J-Dnb-base.installation.location={}\" \"-J-Dnb-base.jdk.location=/usr/lib/jvm/java-1.8.0-openjdk\"  ".format(pro_saveas,location),shell=True)!=0:
             print("Install To {} Failed.".format(location))
             return False
 
+            
         return True
         
     def remove(self):
@@ -118,6 +120,7 @@ class Plugin(BasePlugin):
         if subprocess.call("{}/uninstall.sh --silent".format(location),shell=True)!=0:
             print("'{}/uninstall.sh --silent' Failed.".format(location))
             return False
+
         return True
 
 
@@ -188,3 +191,7 @@ class Plugin(BasePlugin):
     def yesorno__(self,msg,q):
         yesorno = Yes_Or_No(msg,q,self.parent)
         yesorno.check()
+
+
+        
+        
