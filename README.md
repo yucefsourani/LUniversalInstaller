@@ -24,6 +24,8 @@ Python+Gtk  Universal Installer
 
 python3-beautifulsoup4
 
+flatpak
+
 
 # Install 
 
