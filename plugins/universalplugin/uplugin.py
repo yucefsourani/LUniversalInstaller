@@ -79,6 +79,7 @@ class NInfo(Gtk.MessageDialog):
             self.parent.set_sensitive(False)
         else:
             self.set_position(Gtk.WindowPosition.CENTER)
+
         self.get_message_area().get_children()[0].set_selectable(True)
     def start(self):
         self.run() 
@@ -122,7 +123,7 @@ class ThreadCheckInstallRemove(threading.Thread):
                spinner,blockparent,waitmsg,runningmsg,
                ifinstallfailmsg,ifremovefailmsg,
                ifinstallsucessmsg,ifremovesucessmsg,
-               beforeinstallyesorno,beforeremoveyesorno,daemon):
+               beforeinstallyesorno,beforeremoveyesorno,daemon,modal,button):
                    
         threading.Thread.__init__(self,daemon=daemon)
         self.func_check           = func_check
@@ -142,17 +143,26 @@ class ThreadCheckInstallRemove(threading.Thread):
         self.ifremovesucessmsg    = ifremovesucessmsg
         self.beforeinstallyesorno = beforeinstallyesorno
         self.beforeremoveyesorno  = beforeremoveyesorno
+        self.modal                = modal
+        self.__button__           = button
 
 
     def info__(self,msg):
-        msg = NInfo(msg,self.parent)
+        if self.modal:
+            msg = NInfo(msg,self.parent)
+        else:
+            msg = NInfo(msg)
         msg.start()
 
     def yesorno__(self,msg,q):
-        yesorno = Yes_Or_No(msg,q,self.parent)
+        if self.modal:
+            yesorno = Yes_Or_No(msg,q,self.parent)
+        else:
+            yesorno = Yes_Or_No(msg,q)
         yesorno.check()
         
     def run(self):
+        GLib.idle_add(self.__button__.set_sensitive,False)
         if self.blockparent:
             GLib.idle_add(self.parent.set_sensitive,False)
         GLib.idle_add(self.spinner.start)
@@ -170,6 +180,7 @@ class ThreadCheckInstallRemove(threading.Thread):
                     GLib.idle_add(self.spinner.stop)
                     if self.blockparent:
                         GLib.idle_add(self.parent.set_sensitive,True)
+                    GLib.idle_add(self.__button__.set_sensitive,True)
                     return
 
             GLib.idle_add(self.label.set_markup,self.runningmsg)
@@ -195,6 +206,7 @@ class ThreadCheckInstallRemove(threading.Thread):
                     GLib.idle_add(self.spinner.stop)
                     if self.blockparent:
                         GLib.idle_add(self.parent.set_sensitive,True)
+                    GLib.idle_add(self.__button__.set_sensitive,True)
                     return
 
             GLib.idle_add(self.label.set_markup,self.runningmsg)
@@ -210,6 +222,7 @@ class ThreadCheckInstallRemove(threading.Thread):
         if self.blockparent:
             GLib.idle_add(self.parent.set_sensitive,True)
         GLib.idle_add(self.spinner.stop)
+        GLib.idle_add(self.__button__.set_sensitive,True)
 
         
 
@@ -232,7 +245,8 @@ class BasePlugin(Gtk.Grid):
                 beforeinstallyesorno="",
                 beforeremoveyesorno="",
                 expand=False,
-                daemon=False):
+                daemon=False,
+                modal=False):
         Gtk.Grid.__init__(self,margin=margin,expand=expand)
         
         self.___parent               = parent
@@ -255,6 +269,7 @@ class BasePlugin(Gtk.Grid):
         self.___beforeinstallyesorno = beforeinstallyesorno
         self.___beforeremoveyesorno  = beforeremoveyesorno
         self.__daemon                = daemon
+        self.__modal                 = modal
 
         
         self.__mainbox__             = Gtk.VBox(spacing=self.___spacing)
@@ -324,7 +339,9 @@ class BasePlugin(Gtk.Grid):
         ifremovesucessmsg=self.___ifremovesucessmsg,
         beforeinstallyesorno=self.___beforeinstallyesorno,
         beforeremoveyesorno=self.___beforeremoveyesorno,
-        daemon=self.__daemon
+        daemon=self.__daemon,
+        modal=self.__modal,
+        button=button
         ).start()
 
 

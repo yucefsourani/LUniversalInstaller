@@ -17,6 +17,9 @@ Python+Gtk  Universal Installer
 
 ![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot3.jpg "Screenshot")
 
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot4.jpg "Screenshot")
+
+
 # Install 
 
 cd && git clone https://github.com/yucefsourani/LUniversalInstaller
@@ -32,6 +35,3 @@ sudo ./setup.py install
  
  sudo dnf install luniversalinstaller -y
 
-# Some Plugin Requires
-
-python3-beautifulsoup4

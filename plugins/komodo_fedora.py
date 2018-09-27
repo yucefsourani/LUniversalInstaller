@@ -44,7 +44,7 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Development</b>"
+category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
 
 
@@ -66,7 +66,7 @@ class Plugin(BasePlugin):
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
-                            blockparent=True,
+                            blockparent=False,
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
@@ -74,10 +74,10 @@ class Plugin(BasePlugin):
                             ifinstallfailmsg="Install Komodo Failed",
                             ifinstallsucessmsg="Install Komodo Done",
                             ifremovesucessmsg="Remove Komodo Done",
-                            beforeinstallyesorno="Start Install ?",
-                            beforeremoveyesorno="Start Remove?",
+                            beforeinstallyesorno="Start Install Komodo ?",
+                            beforeremoveyesorno="Start Remove Komodo ?",
                             expand=False,
-                            daemon=True)
+                            daemon=False)
 
         self.parent = parent
         
@@ -220,7 +220,7 @@ class Plugin(BasePlugin):
         return saveas
 
     def yesorno__(self,msg,q):
-        yesorno = Yes_Or_No(msg,q,self.parent)
+        yesorno = Yes_Or_No(msg,q)
         yesorno.check()
 
         

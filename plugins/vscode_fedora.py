@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  compression_fedora.py
+#  vscode_fedora.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -23,8 +23,8 @@
 #  
 from universalplugin.uplugin import BasePlugin, get_uniq_name
 import subprocess
-import time
 import os
+from gi.repository import GLib
 
 if_true_skip         = False
 if_false_skip        = True
@@ -32,13 +32,12 @@ if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
-distro_name          = ["fedora"]
+distro_name          = ["all"]
 distro_version       = ["all"]
-category             = "<b>System</b>"
-category_icon_theme  = "applications-system"
+category             = "<b>Developer Tools</b>"
+category_icon_theme  = "applications-development"
 
 
-all_package =  ["zip", "p7zip", "gzip", "cpio","unar" , "p7zip-plugins"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -46,43 +45,54 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="tools_settings_tool_preferences-512.png",
-                            button_install_label="Install Compression Utility",
-                            button_remove_label="Remove Compression Utility",
-                            buttontooltip="Install Remove Compression Utility",
+                            button_image="code.png",
+                            button_install_label="Install Visual Studio Code (Flatpak User wide)",
+                            button_remove_label="Remove Visual Studio Code (Flatpak User wide)",
+                            buttontooltip="Install Remove Visual Studio Code (Flatpak User wide)",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
                             blockparent=False,
-                            daemon=False,
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Compression Utility",
-                            ifremovefailmsg="Remove Compression Utility",
+                            ifinstallfailmsg="Install Visual Studio Code Failed",
+                            ifremovefailmsg="Remove Visual Studio Code Failed",
+                            beforeinstallyesorno="Start Install Visual Studio Code ?",
+                            beforeremoveyesorno="Start Remove Visual Studio Code ?",
+                            daemon=False,
                             expand=False)
 
 
     def check(self):
-        check_package = all([self.check_package(pack) for pack in all_package])
-        return not check_package
+        self.package_name = "com.visualstudio.code"
+        return not self.check_package(self.package_name)
         
     def install(self):
-        to_install = [pack for pack in all_package if not self.check_package(pack)]
-        to_install = " ".join(to_install)
-        if subprocess.call("pkexec dnf install {} -y --best".format(to_install),shell=True)==0:
+        if not self.check_repo("flathub"):
+            if subprocess.call("flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo --user",shell=True) !=0:
+                print("Add Flathub repo Failed.")
+                return False
+        
+        if subprocess.call("flatpak --user install flathub {} -y".format(self.package_name),shell=True)==0:
             return True
         return False
         
     def remove(self):
-        to_remove = " ".join([pack for pack in all_package if self.check_package(pack)])
-        if subprocess.call("pkexec rpm -v --nodeps -e {}".format(to_remove),shell=True)==0:
-            return True
-        return False
-
-    def check_package(self,package_name):
-        if subprocess.call("rpm -q {} &>/dev/null".format(package_name),shell=True) == 0:
-            return True
+        try:
+            if subprocess.call("flatpak --user remove {} -y 2>/dev/null".format(self.package_name),shell=True)==0:
+                return True
+        except:
+            if subprocess.call("pkexec flatpak  remove {} -y 2>/dev/null".format(self.package_name),shell=True)==0:
+                return True
         return False
         
+    def check_package(self,package_name):
+        if subprocess.call("flatpak list  --app |grep {} &>/dev/null".format(package_name),shell=True) == 0:
+            return True
+        return False
 
+    def check_repo(self,repo_name):
+        if subprocess.call("flatpak --user remote-list  |grep {} &>/dev/null".format(repo_name),shell=True) == 0:
+            return True
+        return False

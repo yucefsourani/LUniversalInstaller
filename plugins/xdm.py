@@ -59,7 +59,7 @@ class Plugin(BasePlugin):
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
-                            blockparent=True,
+                            blockparent=False,
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
@@ -67,8 +67,10 @@ class Plugin(BasePlugin):
                             ifinstallfailmsg="Install Xdman Failed",
                             ifinstallsucessmsg="Install Xdman Done",
                             ifremovesucessmsg="Remove Xdman Done",
+                            beforeinstallyesorno="Start Install Xdman ?",
+                            beforeremoveyesorno="Start Remove Xdman ?",
                             expand=False,
-                            daemon=True)
+                            daemon=False)
 
         self.parent = parent
         
@@ -172,5 +174,5 @@ class Plugin(BasePlugin):
         return saveas
 
     def yesorno__(self,msg,q):
-        yesorno = Yes_Or_No(msg,q,self.parent)
+        yesorno = Yes_Or_No(msg,q)
         yesorno.check()
