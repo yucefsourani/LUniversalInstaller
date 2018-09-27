@@ -20,6 +20,11 @@ Python+Gtk  Universal Installer
 ![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot4.jpg "Screenshot")
 
 
+# Some Plugin Requires
+
+python3-beautifulsoup4
+
+
 # Install 
 
 cd && git clone https://github.com/yucefsourani/LUniversalInstaller
