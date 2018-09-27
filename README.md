@@ -32,3 +32,6 @@ sudo ./setup.py install
  
  sudo dnf install luniversalinstaller -y
 
+# Some Plugin Requires
+
+python3-beautifulsoup4
