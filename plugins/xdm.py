@@ -115,7 +115,7 @@ class Plugin(BasePlugin):
 
 
     def __download(self,link,location):
-        GLib.idle_add(self.parent.set_sensitive,True)
+
         GLib.idle_add(self.__button__.set_sensitive,False)
         GLib.idle_add(self.__mainbox__.pack_start,self.__progressbar__,True,True,0)
         GLib.idle_add(self.__progressbar__.set_show_text,True)
@@ -141,7 +141,7 @@ class Plugin(BasePlugin):
                 GLib.idle_add(self.__progressbar__.set_text,"{} Already Exists".format(saveas))
                 GLib.idle_add(self.__button__.set_sensitive,True)
                 GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
-                GLib.idle_add(self.parent.set_sensitive,False)
+
                 return saveas
             else:
                 size = int(opurl.headers["Content-Length"])
@@ -166,11 +166,11 @@ class Plugin(BasePlugin):
             GLib.idle_add(self.__progressbar__.set_text,"Fail")
             GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
             GLib.idle_add(self.__button__.set_sensitive,True)
-            GLib.idle_add(self.parent.set_sensitive,False)
+
             return False
         GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
         GLib.idle_add(self.__button__.set_sensitive,True)
-        GLib.idle_add(self.parent.set_sensitive,False)
+
         return saveas
 
     def yesorno__(self,msg,q):
