@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  komodo_fedora.py
+#  intellij_idea.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -30,6 +30,8 @@ from gi.repository import GLib
 import subprocess
 import tempfile
 import queue
+import hashlib
+import json
 
 if_true_skip         = False
 try:
@@ -48,10 +50,15 @@ category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
 
 
-location     = os.path.join(GLib.get_user_data_dir(),"komodo")
-location_bin = os.path.join(GLib.get_home_dir(),".local","bin")
-all_package_to_install = ["gtk+", "glib2", "pango", "libstdc++", "gdk-pixbuf2",\
-"libgnome", "libgnomeui", "scim", "scim-gtk", "scim-bridge-qt3"]
+location             = os.path.join(GLib.get_user_data_dir(),"IntelliJIDEA")
+location_bin         = os.path.join(GLib.get_home_dir(),".local","bin")
+exec_filename        = "idea.sh"
+code_name            = "IIC"
+edesktop_file_name   = "intellijidea.desktop"
+icon_filename        = "idea.png"
+
+
+all_package_to_install = ["java-1.8.0-openjdk","java-openjdk","java-1.8.0-openjdk-devel","java-openjdk-devel"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -59,10 +66,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="komodo48.png",
-                            button_install_label="Install Komodo",
-                            button_remove_label="Remove Komodo",
-                            buttontooltip="Install Komodo",
+                            button_image="idea.png",
+                            button_install_label="Install IntelliJ IDEA Community",
+                            button_remove_label="Remove IntelliJ IDEA Community",
+                            buttontooltip="Install Remove IntelliJ IDEA Community",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -70,73 +77,98 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifremovefailmsg="Remove Komodo Failed",
-                            ifinstallfailmsg="Install Komodo Failed",
-                            ifinstallsucessmsg="Install Komodo Done",
-                            ifremovesucessmsg="Remove Komodo Done",
-                            beforeinstallyesorno="Start Install Komodo ?",
-                            beforeremoveyesorno="Start Remove Komodo ?",
+                            ifremovefailmsg="Remove IntelliJ IDEA Community Failed",
+                            ifinstallfailmsg="Install IntelliJ IDEA Community Failed",
+                            ifinstallsucessmsg="Install IntelliJ IDEA Community Done",
+                            ifremovesucessmsg="Remove IntelliJ IDEA Community Done",
+                            beforeinstallyesorno="Start Install IntelliJ IDEA Community ?",
+                            beforeremoveyesorno="Start Remove IntelliJ IDEA Community ?",
                             expand=False,
                             daemon=False)
 
         self.parent = parent
         
     def check(self):
-        check_package = all([self.check_package(pack) for pack in all_package_to_install])
-        if not check_package:
-            return True
-        return not (os.path.isfile(os.path.join(location,"bin","komodo")) and os.path.isfile(os.path.join(location_bin,"komodo")))
+        return not (os.path.isfile(os.path.join(location,"bin",exec_filename)) and os.path.isfile(os.path.join(location_bin,exec_filename)))
         
     def install(self):
         temp = tempfile.gettempdir()
-        packs = [pack for pack in all_package_to_install if not self.check_package(pack)]
-        if packs:
-            packs = " ".join([pack for pack in packs])
-            commands = ["dnf install {} --best -y".format(packs)]
-            to_run = write_to_tmp(commands)
-            if subprocess.call("pkexec bash  {}".format(to_run),shell=True)!=0:
-                return False
-            if os.path.isfile(os.path.join(location,"bin","komodo")) and os.path.isfile(os.path.join(location_bin,"komodo")):
-                return True
-
-        link_pro = self.get_komodo_downlaod_link()
+        link_pro,checksumlink = self.__get_downlaod_link(code=code_name)
         if not link_pro:
             print("Get Download Link Failed.")
             return False
+            
         try:
             os.makedirs(location,exist_ok=True)
         except:
             print("Makedir {} Failed.".format(location))
             return False
+            
         pro_saveas = self.__download(link_pro,temp)
         if not pro_saveas:
             print("Download Failed.")
             return False
-        if subprocess.call("tar -xvzf {} -C {}".format(pro_saveas,temp),shell=True) != 0:
-            print("'tar -xvzf {} -C {}' Failed.".format(pro_saveas,temp))
+            
+        if not self.check_sum(pro_saveas,checksumlink):
+            print("Check sha256 Failed Redownload .")
             return False
-        folder_name = os.path.basename(pro_saveas).rsplit(".",2)[0]
-        install_file_location = os.path.join(temp,folder_name)
-        old_cwd = os.getcwd()
-        os.chdir(install_file_location)
-        if subprocess.call("chmod 755 install.sh",shell=True)!=0:
-            print("'chmod 755 install.sh' Failed.")
-            os.chdir(old_cwd)
+        
+            
+        if subprocess.call("tar --strip=1 -xvzf {} -C {}".format(pro_saveas,location),shell=True) != 0:
+            print("'tar -xvzf {} -C {}' Failed.".format(pro_saveas,location))
             return False
-        if subprocess.call("./install.sh -I {}".format(location),shell=True) != 0 :
-            print("Install To {} Failed.".format(location))
-            os.chdir(old_cwd)
-            return False
-        os.chdir(old_cwd)
+
         try:
             os.makedirs(location_bin,exist_ok=True)
         except Exception as e:
             print(e)
             return False
-        if subprocess.call("ln -sf {} {}".format(os.path.join(location,"bin","komodo"),os.path.join(location_bin,"komodo")),shell=True)!=0:
-            print("'ln -sf {} {}' Failed.".format(os.path.join(location,"bin","komodo"),os.path.join(location_bin,"komodo")))
+        
+        subprocess.call("chmod 755 {}".format(os.path.join(location,"bin",exec_filename)),shell=True)
+        if subprocess.call("ln -sf {} {}".format(os.path.join(location,"bin",exec_filename),os.path.join(location_bin,exec_filename)),shell=True)!=0:
+            print("'ln -sf {} {}' Failed.".format(os.path.join(location,"bin",exec_filename),os.path.join(location_bin,exec_filename)))
+            return False
+        
+        
+        application_location = os.path.join(GLib.get_user_data_dir(),"applications",edesktop_file_name)
+        to_write_desktop = """[Desktop Entry]
+Encoding=UTF-8
+Version=1.0
+Type=Application
+Terminal=false
+Exec={}
+Icon={}
+Name=IntelliJ IDEA Community
+Comment=IntelliJ IDEA Community
+Categories=ActiveState;Application;Development;Editor;Utility;TextEditor;
+""".format(os.path.join(location_bin,exec_filename),os.path.join(location,"bin",icon_filename))
+
+        try:
+            with open(application_location,"w") as mf:
+                mf.write(to_write_desktop)
+        except:
+            return False
+        return True
+
+    def check_sum(self,pro_saveas,checksumlink):
+        try:
+            url    = request.Request(checksumlink,headers={"User-Agent":"Mozilla/5.0"})
+            opurl  = request.urlopen(url,timeout=10)
+            sha256 =  opurl.read().decode("utf-8").strip().split()[0]
+        except Exception as e:
+            print(e)
             return False
             
+        sha = hashlib.sha256()
+        with open(pro_saveas, 'rb') as f:
+            while True:
+                data = f.read(1024 * 1024 * 32)
+                if not data:
+                    break
+                sha.update(data)
+
+        if sha.hexdigest().lower()!=sha256.lower():
+            return False
         return True
         
     def remove(self):
@@ -144,14 +176,9 @@ class Plugin(BasePlugin):
             print("'rm -rf {}' Failed.".format(location))
             return False
         
-        application_location = os.path.join(GLib.get_user_data_dir(),"applications")
-        if subprocess.call("rm -f {}/komodo-edit*".format(application_location),shell=True)!=0:
-            print("Remove Desktop Entry From {} Failed.".format(application_location))
-            return False
-            
-        if subprocess.call("rm -rf {}".format(os.path.join(location_bin,"komodo")),shell=True)!=0:
-            print("'rm -rf {}' Failed.".format(os.path.join(location_bin,"komodo")))
-            return False
+        application_location = os.path.join(GLib.get_user_data_dir(),"applications",edesktop_file_name)
+        subprocess.call("rm -f {}".format(application_location),shell=True)
+        subprocess.call("rm -rf {}".format(os.path.join(location_bin,exec_filename)),shell=True)
         return True
 
 
@@ -180,11 +207,21 @@ class Plugin(BasePlugin):
                     pass
                 if  q.get():
                     subprocess.call("rm -rf {}".format(saveas),shell=True)
+            if  os.path.isfile("/etc/fedora-release"):
+                packs = [pack for pack in all_package_to_install if not self.check_package(pack)]
+                if packs:
+                    packs = " ".join([pack for pack in packs])
+                    commands = ["dnf install {} --best -y".format(packs)]
+                    to_run = write_to_tmp(commands)
+                    if subprocess.call("pkexec bash  {}".format(to_run),shell=True)!=0:
+                        GLib.idle_add(self.__progressbar__.set_fraction,0.0)
+                        GLib.idle_add(self.__progressbar__.set_text,"Fail")
+                        GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
+                        return False
             if  os.path.isfile(saveas):
                 GLib.idle_add(self.__progressbar__.set_fraction,1.0)
                 GLib.idle_add(self.__progressbar__.set_text,"{} Already Exists".format(saveas))
                 GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
-
                 return saveas
             else:
                 size = int(opurl.headers["Content-Length"])
@@ -208,8 +245,6 @@ class Plugin(BasePlugin):
             GLib.idle_add(self.__progressbar__.set_fraction,0.0)
             GLib.idle_add(self.__progressbar__.set_text,"Fail")
             GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
-
-
             return False
         GLib.idle_add(self.__mainbox__.remove,self.__progressbar__)
 
@@ -221,23 +256,26 @@ class Plugin(BasePlugin):
         yesorno.check()
 
         
-    def get_komodo_downlaod_link(self):
-        if os.uname().machine == "x86_64":
-            download_arch = "linuxx86_64"
-        else:
-            download_arch = "linuxx86"
-        
-        url = request.Request("https://www.activestate.com/komodo-ide/downloads/edit",headers={"User-Agent":"Mozilla/5.0"})
+    def __get_downlaod_link(self,code):
+        url = request.Request("https://data.services.jetbrains.com/products",headers={"User-Agent":"Mozilla/5.0"})
         try:
-            htmldoc = request.urlopen(url,timeout=10)
+            with request.urlopen(url) as response:
+                body = json.loads(response.read().decode('utf-8'))
+                for info in body:
+                    if code in info["code"]:
+                        for i in info["releases"]:
+                            if isinstance(i,dict):
+                                if "version" in i.keys() and "downloads" in i.keys():
+                                    if i["type"]=="release":
+                                        try:
+                                            info__ = [i["downloads"]["linux"]["link"], i["downloads"]["linux"]["checksumLink"]]
+                                            return info__
+                                        except:
+                                            continue
+                    
         except Exception as e:
             print(e)
             return False
-        soup = BeautifulSoup(htmldoc.read(),"html.parser")
-        for tag in soup.findAll("td",{"class":"dl_link"}):
-            try:
-                if tag.a.attrs["data-platform"] == download_arch:
-                    return tag.a.attrs["href"].split("=",1)[-1]
-            except:
-                continue
+
         return False
+
