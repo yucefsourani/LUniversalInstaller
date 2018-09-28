@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  compression_fedora.py
+#  vlc_fedora.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -21,7 +21,7 @@
 #  MA 02110-1301, USA.
 #  
 #  
-from universalplugin.uplugin import BasePlugin, get_uniq_name
+from universalplugin.uplugin import BasePlugin, get_uniq_name, write_to_tmp
 import subprocess
 import time
 import os
@@ -34,11 +34,10 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Utils</b>"
-category_icon_theme  = "preferences-other"
+category             = "<b>Multimedia</b>"
+category_icon_theme  = "applications-multimedia"
 
-
-all_package =  ["zip", "p7zip", "gzip", "cpio","unar" , "p7zip-plugins"]
+all_package = ["audacity-freeworld"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -46,10 +45,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="tools_settings_tool_preferences-512.png",
-                            button_install_label="Install Compression Utility",
-                            button_remove_label="Remove Compression Utility",
-                            buttontooltip="Install Remove Compression Utility",
+                            button_image="audacity.png",
+                            button_install_label="Install Audacity Freeworld",
+                            button_remove_label="Remove Audacity Freeworld",
+                            buttontooltip="Multitrack audio editor",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,19 +57,33 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Compression Utility",
-                            ifremovefailmsg="Remove Compression Utility",
+                            ifinstallfailmsg="Install Audacity Freeworld Failed",
+                            ifremovefailmsg="Remove Audacity Freeworld Failed",
                             expand=False)
 
 
+        
+        
     def check(self):
         check_package = all([self.check_package(pack) for pack in all_package])
         return not check_package
         
     def install(self):
+        rpmfusion  = all([ self.check_package(pack) for pack in ["rpmfusion-nonfree-release", "rpmfusion-free-release"]])
         to_install = [pack for pack in all_package if not self.check_package(pack)]
         to_install = " ".join(to_install)
-        if subprocess.call("pkexec dnf install {} -y --best".format(to_install),shell=True)==0:
+        commands = ["dnf install {} -y --best".format(to_install)]
+        if not rpmfusion:
+            d_version = self.get_distro_version()
+            command_to_install_rpmfusion = "dnf install  --best -y --nogpgcheck  \
+    http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{}.noarch.rpm \
+    http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{}.noarch.rpm".format(d_version,d_version)
+            commands.insert(0,command_to_install_rpmfusion)
+        if self.check_package("audacity"):
+            commands.insert(0,"rpm -v --nodeps -e audacity")
+        to_run = write_to_tmp(commands)
+
+        if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True
         return False
         
@@ -84,5 +97,13 @@ class Plugin(BasePlugin):
         if subprocess.call("rpm -q {} &>/dev/null".format(package_name),shell=True) == 0:
             return True
         return False
-        
 
+    def get_distro_version(self):
+        result=""
+        if not os.path.isfile("/etc/os-release"):
+            return None
+        with open("/etc/os-release") as myfile:
+            for l in myfile:
+                if l.startswith("VERSION_ID"):
+                    result=l.split("=",1)[1].strip()
+        return result.replace("\"","").replace("'","")

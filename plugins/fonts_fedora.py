@@ -68,8 +68,8 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Utils</b>"
-category_icon_theme  = "preferences-other"
+category             = "<b>System</b>"
+category_icon_theme  = "applications-system"
 
 
 class Plugin(BasePlugin):

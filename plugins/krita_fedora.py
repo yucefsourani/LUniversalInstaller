@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  compression_fedora.py
+#  krita_fedora.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -34,11 +34,10 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Utils</b>"
-category_icon_theme  = "preferences-other"
+category             = "<b>Graphics</b>"
+category_icon_theme  = "applications-graphics"
 
-
-all_package =  ["zip", "p7zip", "gzip", "cpio","unar" , "p7zip-plugins"]
+all_package = ["krita","krita-libs"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -46,10 +45,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="tools_settings_tool_preferences-512.png",
-                            button_install_label="Install Compression Utility",
-                            button_remove_label="Remove Compression Utility",
-                            buttontooltip="Install Remove Compression Utility",
+                            button_image="krita.png",
+                            button_install_label="Install Krita",
+                            button_remove_label="Remove Krita",
+                            buttontooltip="Krita is a sketching and painting program",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,15 +57,15 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Compression Utility",
-                            ifremovefailmsg="Remove Compression Utility",
+                            ifinstallfailmsg="Install Krita Failed",
+                            ifremovefailmsg="Remove Krita Failed",
                             expand=False)
 
 
     def check(self):
         check_package = all([self.check_package(pack) for pack in all_package])
-        return not check_package
-        
+        return not check_package     
+         
     def install(self):
         to_install = [pack for pack in all_package if not self.check_package(pack)]
         to_install = " ".join(to_install)
@@ -85,4 +84,3 @@ class Plugin(BasePlugin):
             return True
         return False
         
-

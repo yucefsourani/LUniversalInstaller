@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  compression_fedora.py
+#  gimp_fedora.py
 #  
 #  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
 #  
@@ -34,11 +34,8 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Utils</b>"
-category_icon_theme  = "preferences-other"
-
-
-all_package =  ["zip", "p7zip", "gzip", "cpio","unar" , "p7zip-plugins"]
+category             = "<b>Graphics</b>"
+category_icon_theme  = "applications-graphics"
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -46,10 +43,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="tools_settings_tool_preferences-512.png",
-                            button_install_label="Install Compression Utility",
-                            button_remove_label="Remove Compression Utility",
-                            buttontooltip="Install Remove Compression Utility",
+                            button_image="kdenlive.png",
+                            button_install_label="Install Kdenlive",
+                            button_remove_label="Remove Kdenlive",
+                            buttontooltip="Non-linear video editor",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,31 +55,21 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Compression Utility",
-                            ifremovefailmsg="Remove Compression Utility",
+                            ifinstallfailmsg="Install Kdenlive Failed",
+                            ifremovefailmsg="Remove Kdenlive Failed",
                             expand=False)
 
 
     def check(self):
-        check_package = all([self.check_package(pack) for pack in all_package])
-        return not check_package
+        return not os.path.isfile("/usr/bin/kdenlive")
         
     def install(self):
-        to_install = [pack for pack in all_package if not self.check_package(pack)]
-        to_install = " ".join(to_install)
-        if subprocess.call("pkexec dnf install {} -y --best".format(to_install),shell=True)==0:
+        if subprocess.call("pkexec dnf install kdenlive -y --best",shell=True)==0:
             return True
         return False
         
     def remove(self):
-        to_remove = " ".join([pack for pack in all_package if self.check_package(pack)])
-        if subprocess.call("pkexec rpm -v --nodeps -e {}".format(to_remove),shell=True)==0:
+        if subprocess.call("pkexec rpm --nodeps -e kdenlive",shell=True)==0:
             return True
         return False
-
-    def check_package(self,package_name):
-        if subprocess.call("rpm -q {} &>/dev/null".format(package_name),shell=True) == 0:
-            return True
-        return False
-        
 

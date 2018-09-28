@@ -34,8 +34,8 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>Multimedia</b>"
-category_icon_theme  = "applications-multimedia"
+category             = "<b>Utils</b>"
+category_icon_theme  = "preferences-other"
 
 class Plugin(BasePlugin):
     __gtype_name__ = "__installremoveflameshot__" #uniq name and no space

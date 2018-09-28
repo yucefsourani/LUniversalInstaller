@@ -34,8 +34,8 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
-category             = "<b>System</b>"
-category_icon_theme  = "applications-system"
+category             = "<b>Internet</b>"
+category_icon_theme  = "applications-internet"
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space

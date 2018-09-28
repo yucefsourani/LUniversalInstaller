@@ -67,7 +67,7 @@ translators_             = ("translator-credit")
 appname                  = "luniversalinstaller"
 appwindowtitle           = "LUniversal Installer"
 appid                    = "com.github.yucefsourani.LUniversalInstaller"
-maxwidgetinrow           = 5
+maxwidgetinrow           = 6
 
 locale                   = [l for l in [os.path.join(os.path.realpath(os.path.dirname(__file__)),"locale"),os.path.join(os.path.realpath(os.path.dirname(__file__)),"../share/locale")] if os.path.isdir(l)]
 if locale:
