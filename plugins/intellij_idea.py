@@ -34,17 +34,12 @@ import hashlib
 import json
 
 if_true_skip         = False
-try:
-    from bs4 import BeautifulSoup
-    if_false_skip   = True
-except Exception as e:
-    print(e)
-    if_false_skip    = False
+if_false_skip        = True
 if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
-distro_name          = ["fedora"]
+distro_name          = ["all"]
 distro_version       = ["all"]
 category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
