@@ -68,7 +68,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Gnome Builder ?",
                             beforeremoveyesorno="Start Remove Gnome Builder ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

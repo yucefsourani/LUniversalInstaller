@@ -77,7 +77,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Komodo ?",
                             beforeremoveyesorno="Start Remove Komodo ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

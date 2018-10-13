@@ -68,7 +68,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Atom ?",
                             beforeremoveyesorno="Start Remove Atom ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

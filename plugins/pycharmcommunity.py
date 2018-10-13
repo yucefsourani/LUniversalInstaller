@@ -68,7 +68,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install PyCharm Community ?",
                             beforeremoveyesorno="Start Remove PyCharm Community ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

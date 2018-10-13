@@ -68,7 +68,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Godot ?",
                             beforeremoveyesorno="Start Remove Godot ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

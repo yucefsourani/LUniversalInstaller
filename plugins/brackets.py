@@ -68,7 +68,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Brackets ?",
                             beforeremoveyesorno="Start Remove Brackets ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

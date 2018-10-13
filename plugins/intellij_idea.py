@@ -79,7 +79,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install IntelliJ IDEA Community ?",
                             beforeremoveyesorno="Start Remove IntelliJ IDEA Community ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

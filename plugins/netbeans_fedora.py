@@ -70,7 +70,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install NetBeans 8.2 ?",
                             beforeremoveyesorno="Start Remove NetBeans 8.2 ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

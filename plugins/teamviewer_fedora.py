@@ -89,7 +89,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install TeamViewer ?",
                             beforeremoveyesorno="Start Remove TeamViewer ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
 
         

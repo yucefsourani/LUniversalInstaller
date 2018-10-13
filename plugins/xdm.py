@@ -70,7 +70,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Xdman ?",
                             beforeremoveyesorno="Start Remove Xdman ?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         

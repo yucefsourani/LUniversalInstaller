@@ -245,7 +245,7 @@ class BasePlugin(Gtk.Grid):
                 beforeinstallyesorno="",
                 beforeremoveyesorno="",
                 expand=False,
-                daemon=False,
+                daemon=True,
                 modal=False):
         Gtk.Grid.__init__(self,margin=margin,expand=expand)
         

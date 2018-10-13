@@ -53,7 +53,7 @@ class Plugin(BasePlugin):
                             buttonsizeheight=100,
                             button_relief=2,
                             blockparent=False,
-                            daemon=False,
+                            daemon=True,
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",

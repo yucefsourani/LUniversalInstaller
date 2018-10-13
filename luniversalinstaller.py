@@ -28,7 +28,7 @@ import os
 import sys
 import gettext
 from site import addsitedir
-
+import threading
 
 
 __minor__ = sys.version_info.minor
@@ -453,10 +453,18 @@ class Application(Gtk.Application):
     def do_activate(self):
         if not self.window:
             self.window = AppWindow(application=self, title=appwindowtitle)
+            self.window.connect("delete-event",self.on_quit)
             
         self.window.present()
 
-    def on_quit(self, action, param):
+    def on_quit(self, action, param=None):
+        if threading.active_count()>1:
+            dt = [t for t in threading.enumerate()[1:] if not t.daemon]
+            if dt:
+                print("Threads Not Daemon Running Wait To Finish.")
+                for t in dt:
+                    print(t)
+                return True
         self.quit()
 
     def on_about(self,a,p):

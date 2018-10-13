@@ -60,7 +60,7 @@ class Plugin(BasePlugin):
                             ifremovefailmsg="Remove Visual Studio Code Failed",
                             beforeinstallyesorno="Start Install Visual Studio Code ?",
                             beforeremoveyesorno="Start Remove Visual Studio Code ?",
-                            daemon=False,
+                            daemon=True,
                             expand=False)
 
 

@@ -68,7 +68,7 @@ class Plugin(BasePlugin):
                             beforeinstallyesorno="Start Install Arduino IDE?",
                             beforeremoveyesorno="Start Remove Arduino IDE?",
                             expand=False,
-                            daemon=False)
+                            daemon=True)
 
         self.parent = parent
         
