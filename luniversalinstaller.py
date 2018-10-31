@@ -80,7 +80,32 @@ if icon_:
 
 plugins_location         = [l for l in  [os.path.join(os.path.realpath(os.path.dirname(__file__)),"plugins"),os.path.join(os.path.realpath(os.path.dirname(__file__)),"../share/{}/plugins".format(appname))] if os.path.isdir(l)]
 
-
+class Yes_Or_No(Gtk.MessageDialog):
+    def __init__(self,msg,parent=None):
+        Gtk.MessageDialog.__init__(self,buttons = Gtk.ButtonsType.OK_CANCEL)
+        self.props.message_type = Gtk.MessageType.QUESTION
+        self.props.text         = msg
+        self.p=parent
+        if self.p != None:
+            self.parent=self.p
+            self.set_transient_for(self.p)
+            self.set_modal(True)
+            self.p.set_sensitive(False)
+        else:
+            self.set_position(Gtk.WindowPosition.CENTER)
+            
+    def check(self):
+        rrun = self.run()
+        if rrun == Gtk.ResponseType.OK:
+            self.destroy()
+            if self.p != None:
+                self.p.set_sensitive(True)
+            return True
+        else:
+            if self.p != None:
+                self.p.set_sensitive(True)
+            self.destroy()
+            return False
 
 image_loction  = [l for l in [os.path.join(os.path.realpath(os.path.dirname(__file__)),"images"),os.path.join(os.path.realpath(os.path.dirname(__file__)),"../../images".format(appname))] if os.path.isdir(l)]
 def get_image_location(image_name):
@@ -465,6 +490,13 @@ class Application(Gtk.Application):
                 for t in dt:
                     print(t)
                 return True
+            else:
+                check = Yes_Or_No("Tasks Running In Background,Are You Sure You Want To Exit?")
+                check = check.check()
+                if  check:
+                    self.quit()
+                else:
+                    return True
         self.quit()
 
     def on_about(self,a,p):
