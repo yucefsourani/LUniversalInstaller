@@ -46,8 +46,8 @@ class Plugin(BasePlugin):
                             spacing=2,
                             margin=10,
                             button_image="81dz0FkILtL.png",
-                            button_install_label="Install Dolphin video thumbnails",
-                            button_remove_label="Remove Dolphin video thumbnails",
+                            button_install_label="Install Kde Dolphin video thumbnails",
+                            button_remove_label="Remove Kde Dolphin video thumbnails",
                             buttontooltip="Install Kde Dolphin video thumbnails",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
@@ -57,8 +57,8 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Dolphin video thumbnails Failed",
-                            ifremovefailmsg="Remove Dolphin video thumbnails Failed",
+                            ifinstallfailmsg="Install Kde Dolphin video thumbnails Failed",
+                            ifremovefailmsg="Remove Kde Dolphin video thumbnails Failed",
                             expand=False)
 
 
