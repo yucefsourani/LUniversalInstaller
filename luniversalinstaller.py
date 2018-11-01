@@ -23,13 +23,14 @@
 #  
 import gi
 gi.require_version("Gtk","3.0")
-from gi.repository import Gtk, Gdk, GdkPixbuf, Gio
+from gi.repository import Gtk, Gdk, GdkPixbuf, Gio,Pango
 import os
 import sys
 import gettext
 from site import addsitedir
 import threading
-
+import urllib.request
+import random
 
 __minor__ = sys.version_info.minor
 if __minor__>4:
@@ -202,8 +203,62 @@ else:
     get_plugins = old_get_plugins
     load_plugin = old_load_plugin
 
+class Splash(threading.Thread):
+    def __init__(self):
+        super(Splash, self).__init__()
+        self.window = Gtk.Window()
+        self.window.set_decorated(False)
+        self.window.props.window_position = Gtk.WindowPosition.CENTER
+        self.window.connect('delete-event', self.destroy)
+        self.window.set_default_size(600, 400)
+        
+        urls = ["https://i.imgur.com/CA1il3p.gif",
+                "http://bestanimations.com/Animals/Birds/Penguins/Penguin-04-june.gif",
+                "http://bestanimations.com/Animals/Birds/Penguins/penguinanimation-10.gif",
+                "http://bestanimations.com/Animals/Birds/Penguins/animatedpenguin-11.gif",
+                "http://bestanimations.com/Animals/Birds/Penguins/penguin-animation.gif",
+                "http://bestanimations.com/Animals/Birds/Penguins/Penguin-03-june.gif",]
+        gio_file = Gio.File.new_for_uri(random.choice(urls))
+        gio_file.load_contents_async(None,self.on_async_ready)
+
+        mainbox        = Gtk.VBox()
+        self.image_box = Gtk.Box()
+        label_box      = Gtk.Box()
+        mainbox.pack_start(self.image_box, True, True, 10)
+        mainbox.pack_start(label_box, True, True, 10)
+        
+        self.label     = Gtk.Label()
+        self.label.set_line_wrap(True)
+        self.label.set_line_wrap(True)
+        self.label.props.use_markup = True
+        self.label.set_line_wrap_mode(Pango.WrapMode(0))
+        label_box.pack_start(self.label, True, True, 10)
+        
+        self.window.add(mainbox)
+
+    def run(self):
+        self.window.set_auto_startup_notification(False)
+        self.window.show_all()
+        self.window.set_auto_startup_notification(True)
 
 
+    def destroy(self):
+        self.window.destroy()
+        
+    def on_async_ready(self,source_object, result, user_data=None):
+        try:
+            succes, content, etag = source_object.load_contents_finish(result)#result=Gio.Task()
+        except :
+            image = Gtk.Spinner()
+            image.start()
+            self.image_box.pack_start(image,True,True,0)
+            return
+        stream       = Gio.MemoryInputStream.new_from_data(content)
+        image_pixbuf = GdkPixbuf.PixbufAnimation.new_from_stream(stream,None)
+        image        = Gtk.Image.new_from_animation(image_pixbuf)
+        self.image_box.pack_start(image,True,True,0)
+        self.window.show_all()
+        
 class AppWindow(Gtk.ApplicationWindow):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -228,9 +283,10 @@ class AppWindow(Gtk.ApplicationWindow):
         self.maincontainer.add(self.grid)
         self.sw.add(self.maincontainer)
         self.add(self.sw)
-        
+
         self.loading_all_plugins()
-            
+        
+
         self.listbox_.connect("row-activated",self.on_activated_row)
         try:
             gi.require_version('Vte', '2.91')
@@ -312,10 +368,15 @@ class AppWindow(Gtk.ApplicationWindow):
 
             
     def loading_all_plugins(self):
+        splash = Splash()
+        splash.start()
         distro_name    = get_distro_name()
         distro_version = get_distro_version()
         all_plugins    = get_plugins()
         for module_name in all_plugins:
+            splash.label.set_label("<span font_weight=\"bold\">Loading {} Plugin.</span>".format(module_name[1]))
+            while Gtk.events_pending():
+                Gtk.main_iteration()
             plugin = load_plugin(module_name)
             if not plugin:
                 continue
@@ -413,7 +474,9 @@ class AppWindow(Gtk.ApplicationWindow):
                 continue
         if len(self.switchcategory)>0:
             self.connect("key-press-event", self._on_key_press)
-
+        
+        splash.destroy()
+        del splash
 
     def on_activated_row(self, listbox,listboxrow):
         self.stack.set_visible_child_name(self.switchcategory[listboxrow]) # ==category name == mainbox for this category name
