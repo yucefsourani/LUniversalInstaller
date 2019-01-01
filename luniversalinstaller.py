@@ -248,15 +248,18 @@ class Splash(threading.Thread):
     def on_async_ready(self,source_object, result, user_data=None):
         try:
             succes, content, etag = source_object.load_contents_finish(result)#result=Gio.Task()
-        except :
+            stream       = Gio.MemoryInputStream.new_from_data(content)
+            image_pixbuf = GdkPixbuf.PixbufAnimation.new_from_stream(stream,None)
+            #image_pixbuf = GdkPixbuf.PixbufAnimation.new_from_stream_finish(result)
+            image        = Gtk.Image.new_from_animation(image_pixbuf)
+            self.image_box.pack_start(image,True,True,0)
+        except Exception as e:
+            print(e)
             image = Gtk.Spinner()
             image.start()
             self.image_box.pack_start(image,True,True,0)
-            return
-        stream       = Gio.MemoryInputStream.new_from_data(content)
-        image_pixbuf = GdkPixbuf.PixbufAnimation.new_from_stream(stream,None)
-        image        = Gtk.Image.new_from_animation(image_pixbuf)
-        self.image_box.pack_start(image,True,True,0)
+
+
         self.window.show_all()
         
 class AppWindow(Gtk.ApplicationWindow):
