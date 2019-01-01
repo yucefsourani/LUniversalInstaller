@@ -60,7 +60,7 @@ MENU_XML="""
 """
 
 authors_                 = ["Youssef Sourani <youssef.m.sourani@gmail.com>"]
-version_                 = "0.1"
+version_                 = "0.2"
 copyright_               ="Copyright © 2018 Youssef Sourani"
 comments_                = "LUniversal Installer"
 website_                 = "https://github.com/yucefsourani/LUniversalInstaller"
@@ -120,21 +120,34 @@ def get_image_location(image_name):
 arch = os.uname().machine
 distro_desktop = os.getenv("XDG_CURRENT_DESKTOP",False)
 
-def get_distro_name():
+
+def get_distro_name(location="/etc/os-release"):
     result=""
-    if not os.path.isfile("/etc/os-release"):
+    if not os.path.isfile(location):
         return None
-    with open("/etc/os-release") as myfile:
+    with open(location) as myfile:
         for l in myfile:
-            if l.startswith("ID"):
+            if l.startswith("ID") and not l.startswith("ID_"):
                 result=l.split("=",1)[1].strip()
     return result.replace("\"","").replace("'","")
 
-def get_distro_version():
+def get_distro_name_like(location="/etc/os-release"):
     result=""
-    if not os.path.isfile("/etc/os-release"):
+    if not os.path.isfile(location):
         return None
-    with open("/etc/os-release") as myfile:
+    with open(location) as myfile:
+        for l in myfile:
+            if l.startswith("ID_LIKE") :
+                result=l.split("=",1)[1].strip()
+    if not result:
+        result = get_distro_name(location)
+    return result.replace("\"","").replace("'","")
+    
+def get_distro_version(location="/etc/os-release"):
+    result=""
+    if not os.path.isfile(location):
+        return None
+    with open(location) as myfile:
         for l in myfile:
             if l.startswith("VERSION_ID"):
                 result=l.split("=",1)[1].strip()
