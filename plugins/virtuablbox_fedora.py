@@ -33,7 +33,7 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
 distro_name          = ["fedora"]
-distro_version       = ["all"]
+distro_version       = ["27","28","29","30"]
 category             = "<b>System</b>"
 category_icon_theme = "applications-system"
 
@@ -92,7 +92,7 @@ class Plugin(BasePlugin):
         rpmfusion  = all([ self.check_package(pack) for pack in ["rpmfusion-nonfree-release", "rpmfusion-free-release"]])
         to_install = [pack for pack in all_package if not self.check_package(pack)] + ["kernel", "kernel-devel", "kernel-headers", "@c-development"]
         to_install = " ".join(to_install)
-        commands = ["dnf remove VirtualBox-5.0 VirtualBox-5.1 VirtualBox-5.2 VirtualBox-5.3 --setopt=clean_requirements_on_remove=False \
+        commands = ["dnf remove VirtualBox-5.0 VirtualBox-5.1 VirtualBox-5.2 VirtualBox-5.3 VirtualBox-6 --setopt=clean_requirements_on_remove=False \
     --setop=strict=False -y --best","dnf install {} -y --best".format(to_install),"usermod -G vboxusers -a $USER"]
         if not rpmfusion:
             d_version = self.get_distro_version()
