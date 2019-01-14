@@ -236,8 +236,14 @@ class Plugin(BasePlugin):
         soup = BeautifulSoup(htmldoc.read(),"html.parser")
         for tag in soup.findAll("td",{"class":"dl_link"}):
             try:
-                if tag.a.attrs["data-platform"] == download_arch:
-                    return tag.a.attrs["href"].split("=",1)[-1]
-            except:
+                l = tag.a.attrs["href"]
+                if download_arch=="linuxx86_64":
+                    if l.endswith("linux-x86_64.tar.gz"):
+                        return l.split("=",1)[-1]
+                elif download_arch=="linuxx86":
+                    if l.endswith("linux-x86.tar.gz"):
+                        return l.split("=",1)[-1]
+            except Exception as e:
+                print(e)
                 continue
         return False
