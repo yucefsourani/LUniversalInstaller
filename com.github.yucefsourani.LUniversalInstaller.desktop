@@ -2,7 +2,7 @@
 Name=LUniversal Installer
 GenericName=LUniversal Installer
 Comment=LUniversal Installer
-Exec=/usr/bin/luniversalinstaller.py
+Exec=luniversalinstaller.py
 Icon=com.github.yucefsourani.LUniversalInstaller
 Terminal=false
 Type=Application
