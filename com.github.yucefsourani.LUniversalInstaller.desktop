@@ -7,4 +7,4 @@ Icon=com.github.yucefsourani.LUniversalInstaller
 Terminal=false
 Type=Application
 StartupNotify=true
-Categories=GTK;Utility;
+Categories=GTK;Utility;Settings;
