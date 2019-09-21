@@ -38,13 +38,13 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
 distro_name          = ["fedora"]
-distro_version       = ["28","29","30"]
+distro_version       = ["31","32"]
 category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
 
 
 location     = os.path.join(GLib.get_user_data_dir(),"netbeans")
-all_package_to_install = ["java-1.8.0-openjdk","java-openjdk","java-1.8.0-openjdk-devel","java-openjdk-devel"]
+all_package_to_install = ["java-1.8.0-openjdk", "java-latest-openjdk-devel", "java-latest-openjdk",  "java-1.8.0-openjdk-devel"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
