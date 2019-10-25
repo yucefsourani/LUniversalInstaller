@@ -26,55 +26,23 @@ import subprocess
 import time
 import os
 
-all_package_to_remove = list(set(['amrnb', 'amrwb', 'compat-ffmpeg28', 'faad2',
-                         'ffmpeg', 'ffmpeg-libs', 'gstreamer-ffmpeg',
-                         'gstreamer-ffmpeg', 'gstreamer-plugins-bad',
-                         'gstreamer-plugins-bad-nonfree',
-                         'gstreamer-plugins-ugly', 'xine-lib',
-                         'xine-lib-devel', 'xine-lib-extras', 'amrnb',
-                         'amrwb', 'compat-ffmpeg28', 'ffmpeg-libs',
-                         'gstreamer-ffmpeg', 'gstreamer-ffmpeg',
-                         'gstreamer-plugins-bad',
-                         'gstreamer-plugins-ugly', 'gstreamer1-libav',
-                         'gstreamer1-plugins-bad-freeworld',
-                         'gstreamer1-plugins-ugly', 'xine-lib',
-                         'xine-lib-devel', 'xine-lib-extras']))
+all_package_to_remove = ['compat-ffmpeg28', 'amrnb', 'gstreamer1-libav', 
+                         'gstreamer-plugins-bad-nonfree', 'faad2', 
+                         'gstreamer1-plugins-ugly', 'amrwb', 'xine-lib', 
+                         'ffmpeg', 'gstreamer1-plugins-bad-freeworld', 
+                         'xine-lib-devel', 'xine-lib-extras']
 
-all_package_to_install = list(set(['amrnb', 'amrwb', 'compat-ffmpeg28', 'faad2', 'ffmpeg',
-               'ffmpeg-libs', 'flac', 'gstreamer-ffmpeg',
-               'gstreamer-ffmpeg',
-               'gstreamer-plugin-crystalhd', 'gstreamer-plugins-bad',
-               'gstreamer-plugins-bad-free',
-               'gstreamer-plugins-bad-free-extras',
-               'gstreamer-plugins-bad-nonfree',
-               'gstreamer-plugins-espeak',
-               'gstreamer-plugins-fc', 'gstreamer-plugins-good',
-               'gstreamer-plugins-ugly', 'gstreamer-rtsp',
-               'gstreamer1-libav', 'gstreamer1-plugins-bad-free',
-               'gstreamer1-plugins-bad-free-extras',
-               'gstreamer1-plugins-bad-freeworld',
-               'gstreamer1-plugins-bad-nonfree',
-               'gstreamer1-plugins-good',
-               'gstreamer1-plugins-good-extras',
-               'gstreamer1-plugins-ugly', 'gstreamer1-vaapi', 'lame',
-               'lame-libs', 'libdvdnav', 'libdvdread', 'lsdvd', 'x264',
-               'xine-lib', 'xine-lib-devel', 'xine-lib-extras',
-               'amrnb', 'amrwb', 'compat-ffmpeg28', 'ffmpeg-libs',
-               'gstreamer-ffmpeg', 'gstreamer-ffmpeg',
-               'gstreamer-plugin-crystalhd', 'gstreamer-plugins-bad',
-               'gstreamer-plugins-bad-free',
-               'gstreamer-plugins-bad-free-extras',
-               'gstreamer-plugins-espeak', 'gstreamer-plugins-fc',
-               'gstreamer-plugins-good', 'gstreamer-plugins-ugly',
-               'gstreamer-rtsp', 'gstreamer1-libav',
-               'gstreamer1-plugins-bad-free',
-               'gstreamer1-plugins-bad-free-extras',
-               'gstreamer1-plugins-bad-freeworld',
-               'gstreamer1-plugins-good',
-               'gstreamer1-plugins-good-extras',
-               'gstreamer1-plugins-ugly', 'gstreamer1-vaapi',
-               'lame-libs', 'libdvdnav', 'libdvdread', 'xine-lib',
-               'xine-lib-devel', 'xine-lib-extras']))
+all_package_to_install = ['lame', 'gstreamer1-plugins-ugly', 
+                          'gstreamer1-plugins-bad-free', 'xine-lib', 
+                          'xine-lib-extras', 'x264', 'faad2', 'amrwb', 
+                          'libdvdnav', 'gstreamer-plugin-crystalhd', 
+                          'ffmpeg', 'gstreamer1-plugins-good', 'flac', 
+                          'gstreamer-plugins-espeak', 'lame-libs', 
+                          'libdvdread', 'gstreamer1-plugins-good-extras', 
+                          'lsdvd', 'xine-lib-devel', 'compat-ffmpeg28', 
+                          'amrnb', 'gstreamer1-libav', 'gstreamer1-plugins-bad-freeworld', 
+                          'gstreamer1-vaapi', 'ffmpeg-libs', 'gstreamer1-plugins-bad-free-extras']
+
                
 if_true_skip         = False
 if_false_skip        = True
@@ -83,7 +51,7 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
 distro_name          = ["fedora"]
-distro_version       = ["28","29","30"]
+distro_version       = ["31","32"]
 category             = "<b>Multimedia</b>"
 category_icon_theme  = "applications-multimedia"
 
