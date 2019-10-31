@@ -88,19 +88,19 @@ class Plugin(BasePlugin):
         
     def remove(self):
         try:
-            if subprocess.call("flatpak --user remove {} -y 2>/dev/null".format(self.package_name),shell=True)==0:
+            if subprocess.call("flatpak --user remove {} -y".format(self.package_name),stderr=subprocess.DEVNULL,shell=True)==0:
                 return True
         except:
-            if subprocess.call("pkexec flatpak  remove {} -y 2>/dev/null".format(self.package_name),shell=True)==0:
+            if subprocess.call("pkexec flatpak  remove {} -y".format(self.package_name),stderr=subprocess.DEVNULL,shell=True)==0:
                 return True
         return False
         
     def check_package(self,package_name):
-        if subprocess.call("flatpak list  --app |grep {} &>/dev/null".format(package_name),shell=True) == 0:
+        if subprocess.call("flatpak list  --app |grep {}".format(package_name),stderr=subprocess.DEVNULL,shell=True) == 0:
             return True
         return False
 
     def check_repo(self,repo_name):
-        if subprocess.call("flatpak --user remote-list  |grep {} &>/dev/null".format(repo_name),shell=True) == 0:
+        if subprocess.call("flatpak --user remote-list  |grep {}".format(repo_name),stderr=subprocess.DEVNULL,shell=True) == 0:
             return True
         return False
