@@ -40,7 +40,7 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
 distro_name          = ["all"]
-distro_version       = ["29","30"]
+distro_version       = ["31","32"]
 category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
 
@@ -53,7 +53,7 @@ edesktop_file_name   = "intellijidea.desktop"
 icon_filename        = "idea.png"
 
 
-all_package_to_install = ["java-1.8.0-openjdk","java-openjdk","java-1.8.0-openjdk-devel","java-openjdk-devel"]
+all_package_to_install = ["java-1.8.0-openjdk","java-1.8.0-openjdk-devel"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
