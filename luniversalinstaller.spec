@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -41,6 +41,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Fri Mar 13 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-8
+- Release 8
+- Fix xdman plugin 
+
 * Fri Jan 17 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-7
 - Release 7
 - Fix intellij_idea Plugin For Fedora 31 32
