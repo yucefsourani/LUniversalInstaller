@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -8,7 +8,7 @@ Source0:        https://github.com/yucefsourani/LUniversalInstaller/archive/mast
 BuildArch:      noarch
 BuildRequires:  python3-devel
 Requires:       vte291
-Requires:       pygobject3
+#Requires:       pygobject3
 Requires:       python3-gobject
 Requires:       gtk3
 Requires:       python3-beautifulsoup4
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Thu Mar 24 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-9
+- Release 9
+
 * Fri Mar 13 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-8
 - Release 8
 - Fix xdman plugin 
