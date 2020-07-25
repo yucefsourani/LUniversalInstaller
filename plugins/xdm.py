@@ -79,12 +79,7 @@ class Plugin(BasePlugin):
         
     def install(self):
         temp = tempfile.gettempdir()
-        arch = os.uname().machine
-        if arch=="x86_64":
-            link_pro = "https://github.com/subhra74/xdm/releases/download/7.2.7/xdm-2018-x64.tar.xz"
-        else:
-            link_pro = "https://github.com/subhra74/xdm/releases/download/7.2.7/xdm-2018-x86.tar.xz"
-
+        link_pro = "https://github.com/subhra74/xdm/releases/download/7.2.11/xdm-setup-7.2.11.tar.xz"
         pro_saveas = self.__download(link_pro,temp)
         if not pro_saveas:
             print("Download Failed.")
