@@ -38,7 +38,7 @@ category             = "<b>Internet</b>"
 category_icon_theme  = "applications-internet"
 
 
-all_package =  ["chromium","chromium-common","chromium-libs","chromium-libs-media"]
+all_package =  ["chromium-libs-media-freeworld", "chromium-vaapi"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -68,9 +68,18 @@ class Plugin(BasePlugin):
         return not check_package
         
     def install(self):
+        rpmfusion  = all([ self.check_package(pack) for pack in ["rpmfusion-nonfree-release", "rpmfusion-free-release"]])
         to_install = [pack for pack in all_package if not self.check_package(pack)]
         to_install = " ".join(to_install)
-        if subprocess.call("pkexec dnf install {} -y --best".format(to_install),shell=True)==0:
+        commands = ["dnf install {} -y --best".format(to_install)]
+        if not rpmfusion:
+            d_version = self.get_distro_version()
+            command_to_install_rpmfusion = "dnf install  --best -y --nogpgcheck  \
+    http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{}.noarch.rpm \
+    http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{}.noarch.rpm".format(d_version,d_version)
+            commands.insert(0,command_to_install_rpmfusion)
+        to_run = write_to_tmp(commands)
+        if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True
         return False
         
