@@ -26,7 +26,7 @@ import subprocess
 import time
 import os
 
-if_true_skip         = False
+if_true_skip         = True # Disabled
 if_false_skip        = True
 if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
