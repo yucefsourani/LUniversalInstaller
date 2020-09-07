@@ -21,7 +21,7 @@
 #  MA 02110-1301, USA.
 #  
 #  
-from universalplugin.uplugin import BasePlugin, get_uniq_name
+from universalplugin.uplugin import BasePlugin, get_uniq_name, write_to_tmp
 import subprocess
 import time
 import os
