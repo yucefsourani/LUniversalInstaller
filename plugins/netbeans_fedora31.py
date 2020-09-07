@@ -38,7 +38,7 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
 distro_name          = ["fedora"]
-distro_version       = ["31","32"]
+distro_version       = ["31","32","33"]
 category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
 
