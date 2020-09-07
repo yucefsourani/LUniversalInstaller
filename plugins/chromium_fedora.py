@@ -47,9 +47,9 @@ class Plugin(BasePlugin):
                             spacing=2,
                             margin=10,
                             button_image="Chromium_logo.png",
-                            button_install_label="Install Chromium Browser",
-                            button_remove_label="Remove Chromium Browser",
-                            buttontooltip="Install Remove Chromium Browser",
+                            button_install_label="Install Chromium (vaapi) Browser",
+                            button_remove_label="Remove Chromium (vaapi) Browser",
+                            buttontooltip="Install Remove Chromium (vaapi) Browser",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,8 +58,8 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Chromium Browser Failed",
-                            ifremovefailmsg="Remove Chromium Browser Failed",
+                            ifinstallfailmsg="Install Chromium (vaapi) Browser Failed",
+                            ifremovefailmsg="Remove Chromium (vaapi) Browser Failed",
                             expand=False)
 
 
