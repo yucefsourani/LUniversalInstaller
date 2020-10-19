@@ -5,7 +5,7 @@ Python+Gtk  Universal Installer
 
 
 
-# Screenshot
+# Screenshot (Terminal Supported (if Vte291 exists))
 
 ![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/0.png "Screenshot")
 
@@ -28,11 +28,7 @@ Python+Gtk  Universal Installer
 ![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/6.png "Screenshot")
 
 
-# New with Vte291 Support (if exists)
 
-![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot3.jpg "Screenshot")
-
-![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot4.jpg "Screenshot")
 
 
 # Some Plugin Requires
