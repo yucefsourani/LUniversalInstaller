@@ -71,7 +71,7 @@ class Plugin(BasePlugin):
     def install(self):
         to_install = [pack for pack in all_package if not self.check_package(pack)]
         to_install = " ".join(to_install)
-        commands = ["dnf install {} -y --best".format(to_install),"firewall-cmd --zone=$(firewall-cmd --get-default-zone) --add-service=kde-connect --permanent","firewall-cmd --reload"]
+        commands = ["dnf install {} -y --best".format(to_install),"firewall-cmd --zone=$(firewall-cmd --get-default-zone) --add-service=kdeconnect --permanent","firewall-cmd --reload"]
         to_run = write_to_tmp(commands)
         if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True

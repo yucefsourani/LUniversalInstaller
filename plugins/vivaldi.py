@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  chromium_fedora.py
+#  vivaldi.py
 #  
-#  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
+#  Copyright 2020 youcef sourani <youssef.m.sourani@gmail.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -20,8 +20,8 @@
 #  Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
 #  MA 02110-1301, USA.
 #  
-#  
-from universalplugin.uplugin import BasePlugin, get_uniq_name, write_to_tmp
+# 
+from universalplugin.uplugin import BasePlugin, write_to_tmp, get_uniq_name
 import subprocess
 import time
 import os
@@ -31,14 +31,11 @@ if_false_skip        = True
 if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
                 
-arch                 = ["all"]
+arch                 = ["x86_64"]
 distro_name          = ["fedora"]
 distro_version       = ["all"]
 category             = "<b>Internet</b>"
 category_icon_theme  = "applications-internet"
-
-
-all_package =  ["chromium-freeworld", "chromium"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -46,10 +43,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="Chromium_logo.png",
-                            button_install_label="Install Chromium (freeworld) Browser",
-                            button_remove_label="Remove Chromium (freeworld) Browser",
-                            buttontooltip="Install Remove Chromium (freeworld) Browser",
+                            button_image="vivaldi.png",
+                            button_install_label="Install Vivaldi",
+                            button_remove_label="Remove Vivaldi",
+                            buttontooltip="Install Remove Vivaldi",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -58,39 +55,27 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Chromium (freeworld) Browser Failed",
-                            ifremovefailmsg="Remove Chromium (freeworld) Browser Failed",
+                            ifinstallfailmsg="Install Vivaldi Failed",
+                            ifremovefailmsg="Remove Vivaldi Failed",
                             expand=False)
 
 
     def check(self):
-        check_package = all([self.check_package(pack) for pack in all_package])
-        return not check_package
+        return not os.path.isfile("/opt/vivaldi/vivaldi")
         
     def install(self):
-        rpmfusion  = all([ self.check_package(pack) for pack in ["rpmfusion-nonfree-release", "rpmfusion-free-release"]])
-        to_install = [pack for pack in all_package if not self.check_package(pack)]
-        to_install = " ".join(to_install)
-        commands = ["dnf install {} -y --best".format(to_install)]
-        if not rpmfusion:
-            d_version = self.get_distro_version()
-            command_to_install_rpmfusion = "dnf install  --best -y --nogpgcheck  \
-    http://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-{}.noarch.rpm \
-    http://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-{}.noarch.rpm".format(d_version,d_version)
-            commands.insert(0,command_to_install_rpmfusion)
+        if os.path.isfile("/etc/yum.repos.d/vivaldi.repo"):
+            commands = ["dnf install vivaldi-stable -y --best"]
+        else:
+            commands = ["echo -e '[vivaldi]\nname=vivaldi\nbaseurl=http://repo.vivaldi.com/archive/rpm/$basearch\nenabled=1\ngpgcheck=1\ngpgkey=http://repo.vivaldi.com/archive/linux_signing_key.pub' > /etc/yum.repos.d/vivaldi.repo",
+            "dnf install vivaldi-stable -y --best"]
         to_run = write_to_tmp(commands)
         if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True
         return False
         
     def remove(self):
-        to_remove = " ".join([pack for pack in all_package if self.check_package(pack)])
-        if subprocess.call("pkexec rpm -v --nodeps -e {}".format(to_remove),shell=True)==0:
+        if subprocess.call("pkexec rpm --nodeps -e vivaldi-stable",shell=True)==0:
             return True
         return False
 
-    def check_package(self,package_name):
-        if subprocess.call("rpm -q {} &>/dev/null".format(package_name),shell=True) == 0:
-            return True
-        return False
-        
