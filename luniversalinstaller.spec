@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        10%{?dist}
+Release:        11%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Mon Oct 19 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-11
+- Release 11
+
 * Sat Jul 25 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-10
 - Release 10
 - Update xdman plugin to new version
