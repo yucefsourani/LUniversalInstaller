@@ -7,10 +7,25 @@ Python+Gtk  Universal Installer
 
 # Screenshot
 
-![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot1.png "Screenshot")
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/0.png "Screenshot")
 
 
-![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/Screenshot2.png "Screenshot")
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/1.png "Screenshot")
+
+
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/2.png "Screenshot")
+
+
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/3.png "Screenshot")
+
+
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/4.png "Screenshot")
+
+
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/5.png "Screenshot")
+
+
+![Alt text](https://raw.githubusercontent.com/yucefsourani/LUniversalInstaller/master/Screenshot/6.png "Screenshot")
 
 
 # New with Vte291 Support (if exists)
