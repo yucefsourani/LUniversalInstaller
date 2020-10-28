@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        11%{?dist}
+Release:        12%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -41,6 +41,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Wed Oct 28 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-12
+- Release 12
+- Add anydesk plugin
+
 * Mon Oct 19 2020 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-11
 - Release 11
 
