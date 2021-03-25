@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        13%{?dist}
+Release:        14%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -41,6 +41,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Thu Mar 25 2021 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-14
+- Release 14
+
 * Thu Mar 16 2021 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-13
 - Release 13
 
