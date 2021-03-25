@@ -31,7 +31,7 @@ import subprocess
 import tempfile
 import queue
 
-if_true_skip         = False
+if_true_skip         = True  #diable no more netbeans 8
 if_false_skip        = True
 if_one_true_skip     = [False,False]
 if_all_true_skip     = [True,False]
