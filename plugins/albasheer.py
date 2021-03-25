@@ -1,9 +1,9 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 #
-#  ArduinoIDE.py
+#  albasheer.py
 #  
-#  Copyright 2018 youcef sourani <youssef.m.sourani@gmail.com>
+#  Copyright 2021 youcef sourani <youssef.m.sourani@gmail.com>
 #  
 #  This program is free software; you can redistribute it and/or modify
 #  it under the terms of the GNU General Public License as published by
@@ -23,13 +23,10 @@
 #  
 from universalplugin.uplugin import BasePlugin, get_uniq_name,write_to_tmp
 import subprocess
-import time
 import os
-from urllib import request
 from gi.repository import GLib
-import subprocess
-import tempfile
-import queue
+
+
 
 if_true_skip         = False
 if_false_skip        = True
@@ -39,8 +36,8 @@ if_all_true_skip     = [True,False]
 arch                 = ["all"]
 distro_name          = ["all"]
 distro_version       = ["all"]
-category             = "<b>Developer Tools</b>"
-category_icon_theme  = "applications-development"
+category             = "<b>Other</b>"
+category_icon_theme  = "applications-other"
 
 
 
@@ -50,10 +47,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="arduino.svg",
-                            button_install_label="Install Arduino IDE (Flatpak User wide)",
-                            button_remove_label="Remove Arduino IDE (Flatpak User wide)",
-                            buttontooltip="Install Remove Arduino IDE (Flatpak User wide)",
+                            button_image="albasheer-128.png",
+                            button_install_label="Install albasheer  (Flatpak User wide)",
+                            button_remove_label="Remove albasheer (Flatpak User wide)",
+                            buttontooltip="Install Remove albasheer (Flatpak User wide)",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -61,19 +58,19 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifremovefailmsg="Remove Arduino IDE Failed",
-                            ifinstallfailmsg="Install Arduino IDE Failed",
-                            ifinstallsucessmsg="Install Arduino IDE Done\n\n<span foreground=\"red\">Reboot Your System</span>",
-                            ifremovesucessmsg="Remove Arduino IDE Done",
-                            beforeinstallyesorno="Start Install Arduino IDE?",
-                            beforeremoveyesorno="Start Remove Arduino IDE?",
+                            ifremovefailmsg="Remove albasheer Failed",
+                            ifinstallfailmsg="Install albasheer Failed",
+                            ifinstallsucessmsg="Install albasheer Done",
+                            ifremovesucessmsg="Remove albasheer Done",
+                            beforeinstallyesorno="Start Install albasheer ?",
+                            beforeremoveyesorno="Start Remove albasheer ?",
                             expand=False,
                             daemon=True)
 
         self.parent = parent
         
     def check(self):
-        self.package_name = "cc.arduino.arduinoide"
+        self.package_name = "com.github.yucefsourani.albasheer-electronic-quran-browser"
         return not self.check_package(self.package_name)
         
     def install(self):
@@ -83,9 +80,6 @@ class Plugin(BasePlugin):
                 return False
         
         if subprocess.call("flatpak --user install flathub {} -y".format(self.package_name),shell=True)==0:
-            commands = ["usermod -G dialout -a $USER"]
-            to_run = write_to_tmp(commands)
-            subprocess.call("pkexec bash  {}".format(to_run),shell=True)
             return True
         return False
         
