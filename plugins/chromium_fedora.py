@@ -64,14 +64,14 @@ class Plugin(BasePlugin):
 
 
     def check(self):
-        check_package = all([self.check_package(pack) for pack in all_package])
+        check_package = any([self.check_package(pack) for pack in all_package])
         return not check_package
         
     def install(self):
         rpmfusion  = all([ self.check_package(pack) for pack in ["rpmfusion-nonfree-release", "rpmfusion-free-release"]])
         to_install = [pack for pack in all_package if not self.check_package(pack)]
         to_install = " ".join(to_install)
-        commands = ["dnf install {} -y --best".format(to_install)]
+        commands = ["dnf install chromium-freeworld -y --best"]
         if not rpmfusion:
             d_version = self.get_distro_version()
             command_to_install_rpmfusion = "dnf install  --best -y --nogpgcheck  \

@@ -37,7 +37,7 @@ distro_version       = ["all"]
 category             = "<b>Multimedia</b>"
 category_icon_theme  = "applications-multimedia"
 
-all_package = ["pyfbdown"]
+all_package = ["pysavetube"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space
@@ -45,10 +45,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="com.github.yucefsourani.pyfbdown.png",
-                            button_install_label="Install pyfbdown",
-                            button_remove_label="Remove pyfbdown",
-                            buttontooltip="Install Remove pyfbdown",
+                            button_image="com.github.yucefsourani.pysavetube.png",
+                            button_install_label="Install pysavetube",
+                            button_remove_label="Remove pysavetube",
+                            buttontooltip="Install Remove pysavetube",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -57,8 +57,8 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install pyfbdown Failed",
-                            ifremovefailmsg="Remove pyfbdown Failed",
+                            ifinstallfailmsg="Install pysavetube Failed",
+                            ifremovefailmsg="Remove pysavetube Failed",
                             expand=False)
 
 
@@ -71,10 +71,10 @@ class Plugin(BasePlugin):
     def install(self):
         to_install = [pack for pack in all_package if not self.check_package(pack)]
         to_install = " ".join(to_install)
-        if os.path.isfile("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:youssefmsourani:pyfbdown.repo"):
+        if os.path.isfile("/etc/yum.repos.d/_copr:copr.fedorainfracloud.org:youssefmsourani:pysavetube.repo"):
             commands = ["dnf install {} -y --best".format(to_install)]
         else:
-            commands = ["dnf copr enable youssefmsourani/pyfbdown -y","dnf install {} -y --best".format(to_install)]
+            commands = ["dnf copr enable youssefmsourani/pysavetube -y","dnf install {} -y --best".format(to_install)]
 
         to_run = write_to_tmp(commands)
         if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:

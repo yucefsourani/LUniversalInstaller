@@ -79,7 +79,7 @@ class Plugin(BasePlugin):
         
     def install(self):
         temp = tempfile.gettempdir()
-        link_pro  = "https://dl.4kdownload.com/app/4kvideodownloader_4.15.1_amd64.tar.bz2"
+        link_pro  = "https://dl.4kdownload.com/app/4kvideodownloader_4.18.1_amd64.tar.bz2"
         link_icon = "https://static.4kdownload.com/main/img/redesign/videodownloader.b9996289c0e2.svg"
 
 

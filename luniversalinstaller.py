@@ -296,9 +296,9 @@ class AppWindow(Gtk.ApplicationWindow):
         
         self.grid.attach(self.listbox_, 0, 0, 1, 1)
         self.grid.attach(self.stack, 1, 0, 1, 1)
-        self.maincontainer.add(self.grid)
-        self.sw.add(self.maincontainer)
-        self.add(self.sw)
+        self.sw.add(self.grid)
+        self.maincontainer.pack_start(self.sw,True,True,0)
+        self.add(self.maincontainer)
 
         self.loading_all_plugins()
         
@@ -308,6 +308,7 @@ class AppWindow(Gtk.ApplicationWindow):
             gi.require_version('Vte', '2.91')
             from gi.repository import Vte
             tscrolledwindow = Gtk.ScrolledWindow()
+            tscrolledwindow.set_policy(Gtk.PolicyType.AUTOMATIC ,Gtk.PolicyType.AUTOMATIC)
             self.terminal = Vte.Terminal()
             
             #self.terminal.set_color_background(Gdk.RGBA(red=0.180392, green=0.203922, blue=0.211765, alpha=1.000000))
@@ -340,7 +341,7 @@ class AppWindow(Gtk.ApplicationWindow):
             
             self.vte_format = Vte.Format(1)
             tscrolledwindow.add(self.terminal)
-            self.maincontainer.pack_end(tscrolledwindow,True,True,0)
+            self.maincontainer.pack_end(tscrolledwindow,False,True,0)
         except Exception as e:
             print(e)
         self.show_all()
