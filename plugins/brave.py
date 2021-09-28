@@ -43,10 +43,10 @@ class Plugin(BasePlugin):
         BasePlugin.__init__(self,parent=parent,
                             spacing=2,
                             margin=10,
-                            button_image="vivaldi.png",
-                            button_install_label="Install Vivaldi Browser",
-                            button_remove_label="Remove Vivaldi Browser",
-                            buttontooltip="Install Remove Vivaldi Browser",
+                            button_image="brave.png",
+                            button_install_label="Install Brave Browser",
+                            button_remove_label="Remove Brave Browser",
+                            buttontooltip="Install Remove Brave Browser",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -55,27 +55,28 @@ class Plugin(BasePlugin):
                             waitmsg="Wait...",
                             runningmsg="Running...",
                             loadingmsg="Loading...",
-                            ifinstallfailmsg="Install Vivaldi Browser Failed",
-                            ifremovefailmsg="Remove Vivaldi Browser Failed",
+                            ifinstallfailmsg="Install Brave Browser Failed",
+                            ifremovefailmsg="Remove Brave Browser Failed",
                             expand=False)
 
 
     def check(self):
-        return not os.path.isfile("/opt/vivaldi/vivaldi")
+        return not os.path.isfile("/usr/bin/brave-browser-stable")
         
     def install(self):
-        if os.path.isfile("/etc/yum.repos.d/vivaldi.repo"):
-            commands = ["dnf install vivaldi-stable -y --best"]
+        if os.path.isfile("/etc/yum.repos.d/brave-browser-rpm-release.s3.brave.com_x86_64_.repo"):
+            commands = ["dnf install brave-browser -y --best"]
         else:
-            commands = ["echo -e '[vivaldi]\nname=vivaldi\nbaseurl=http://repo.vivaldi.com/archive/rpm/$basearch\nenabled=1\ngpgcheck=1\ngpgkey=http://repo.vivaldi.com/archive/linux_signing_key.pub' > /etc/yum.repos.d/vivaldi.repo",
-            "dnf install vivaldi-stable -y --best"]
+            commands = ["dnf config-manager --add-repo https://brave-browser-rpm-release.s3.brave.com/x86_64/",
+            "rpm --import https://brave-browser-rpm-release.s3.brave.com/brave-core.asc",
+            "dnf install brave-browser -y --best"]
         to_run = write_to_tmp(commands)
         if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True
         return False
         
     def remove(self):
-        if subprocess.call("pkexec rpm --nodeps -e vivaldi-stable",shell=True)==0:
+        if subprocess.call("pkexec rpm --nodeps -e brave-browser",shell=True)==0:
             return True
         return False
 
