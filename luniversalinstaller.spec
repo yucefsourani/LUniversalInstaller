@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        16%{?dist}
+Release:        17%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -41,6 +41,11 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Tue Sep 28 2021 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-17
+- Release 17
+- Add Brave Browser
+- Add Microsoft Edge Beta
+
 * Sun Sep 26 2021 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-16
 - Release 16
 - Support fedora 35
