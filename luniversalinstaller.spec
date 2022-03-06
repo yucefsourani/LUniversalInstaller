@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        17%{?dist}
+Release:        18%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -12,7 +12,8 @@ Requires:       vte291
 Requires:       python3-gobject
 Requires:       gtk3
 Requires:       python3-beautifulsoup4
-Requires:       flatpak     
+Requires:       flatpak
+Requires:       gnome-icon-theme
 
 %description
 Python+Gtk Universal Installer.
@@ -41,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Sun Mar 6 2022 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-18
+- Release 18
+
 * Tue Sep 28 2021 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-17
 - Release 17
 - Add Brave Browser
