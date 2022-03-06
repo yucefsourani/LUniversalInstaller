@@ -44,9 +44,9 @@ class Plugin(BasePlugin):
                             spacing=2,
                             margin=10,
                             button_image="edge.png",
-                            button_install_label="Install Microsoft Edge Beta",
-                            button_remove_label="Remove Microsoft Edge Beta",
-                            buttontooltip="Install Remove Microsoft Edge Beta",
+                            button_install_label="Install Microsoft Edge",
+                            button_remove_label="Remove Microsoft Edge",
+                            buttontooltip="Install Remove Microsoft Edge",
                             buttonsizewidth=100,
                             buttonsizeheight=100,
                             button_relief=2,
@@ -69,8 +69,7 @@ class Plugin(BasePlugin):
         else:
             commands = ["dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge",
             "rpm --import https://packages.microsoft.com/keys/microsoft.asc",
-            "mv /etc/yum.repos.d/packages.microsoft.com_yumrepos_edge.repo /etc/yum.repos.d/microsoft-edge-beta.repo",
-            "dnf install microsoft-edge-beta -y --best"]
+            "dnf install microsoft-edge -y --best"]
         to_run = write_to_tmp(commands)
         if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True

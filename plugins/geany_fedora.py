@@ -37,7 +37,7 @@ distro_version       = ["all"]
 category             = "<b>Developer Tools</b>"
 category_icon_theme  = "applications-development"
 
-all_package = ["geany-themes","geany","geany-libgeany","xterm"]
+all_package = ["geany-themes","geany","xterm"]
 
 class Plugin(BasePlugin):
     __gtype_name__ = get_uniq_name(__file__) #uniq name and no space

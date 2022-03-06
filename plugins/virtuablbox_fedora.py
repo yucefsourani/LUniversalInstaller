@@ -33,7 +33,7 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["all"]
 distro_name          = ["fedora"]
-distro_version       = ["27","28","29","30","32","33","34","35"]
+distro_version       = ["27","28","29","30","32","33","34","35","36"]
 category             = "<b>System</b>"
 category_icon_theme = "applications-system"
 
