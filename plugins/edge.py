@@ -61,22 +61,22 @@ class Plugin(BasePlugin):
 
 
     def check(self):
-        return not os.path.isfile("/usr/bin/microsoft-edge-beta")
+        return not os.path.isfile("/usr/bin/microsoft-edge-stable")
         
     def install(self):
         if os.path.isfile("/etc/yum.repos.d/microsoft-edge-beta.repo"):
-            commands = ["dnf install microsoft-edge-beta -y --best"]
+            commands = ["dnf install microsoft-edge-stable -y --best"]
         else:
             commands = ["dnf config-manager --add-repo https://packages.microsoft.com/yumrepos/edge",
             "rpm --import https://packages.microsoft.com/keys/microsoft.asc",
-            "dnf install microsoft-edge -y --best"]
+            "dnf install microsoft-edge-stable -y --best"]
         to_run = write_to_tmp(commands)
         if subprocess.call("pkexec bash  {}".format(to_run),shell=True)==0:
             return True
         return False
         
     def remove(self):
-        if subprocess.call("pkexec rpm --nodeps -e microsoft-edge-beta",shell=True)==0:
+        if subprocess.call("pkexec rpm --nodeps -e microsoft-edge-stable",shell=True)==0:
             return True
         return False
 
