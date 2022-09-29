@@ -38,7 +38,7 @@ if_all_true_skip     = [True,False]
                 
 arch                 = ["x86_64"]
 distro_name          = ["all"]
-distro_version       = ["all"]
+distro_version       = ["34","35","36"]
 category             = "<b>Internet</b>"
 category_icon_theme  = "applications-internet"
 
