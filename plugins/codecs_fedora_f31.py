@@ -27,7 +27,7 @@ import time
 import os
 
 all_package_to_remove = ['amrnb', 'gstreamer1-libav', 
-                         'gstreamer-plugins-bad-nonfree', 'faad2', 
+                         'faad2', 
                          'gstreamer1-plugins-ugly', 'amrwb', 'xine-lib', 
                          'ffmpeg', 'gstreamer1-plugins-bad-freeworld', 
                          'xine-lib-devel', 'xine-lib-extras']
