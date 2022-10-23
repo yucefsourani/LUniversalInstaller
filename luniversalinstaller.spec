@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        20%{?dist}
+Release:        21%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -23,11 +23,11 @@ Python+Gtk Universal Installer.
 %autosetup -n LUniversalInstaller-master
 
 %build
-%{__python3} setup.py build
+%{__python3} setup.py bdist_wheel
 
 %install
 rm -rf $RPM_BUILD_ROOT
-%{__python3} setup.py install -O1 --skip-build --root $RPM_BUILD_ROOT --prefix /usr
+%{__python3} -m pip install ./dist/LUniversalInstaller-*.whl  --root $RPM_BUILD_ROOT --prefix=/usr
 
 
 %files
@@ -42,6 +42,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Thu Oct 20 2022 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-21
+- Release 21
+- Support fedora 37
+
 * Thu Apr 21 2022 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-20
 - Release 20
 - Update Xdman To v7.2.10
