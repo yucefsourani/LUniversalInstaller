@@ -49,8 +49,4 @@ install_data(
     install_dir : get_option('bindir')
 )
 
-desktop_utils = find_program('desktop-file-validate', required: false)
-if desktop_utils.found()
-  test('Validate desktop file', desktop_utils, args: [join_paths(get_option('datadir'), 'applications','com.github.yucefsourani.LUniversalInstaller.desktop')])
-endif
 
