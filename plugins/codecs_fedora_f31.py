@@ -26,7 +26,7 @@ import subprocess
 import time
 import os
 
-all_package_to_remove = ['amrnb', 'gstreamer1-libav', 
+all_package_to_remove = ['amrnb', 'gstreamer1-plugin-libav', 
                          'faad2', 
                          'gstreamer1-plugins-ugly', 'amrwb', 'xine-lib', 
                          'ffmpeg', 'gstreamer1-plugins-bad-freeworld', 
@@ -40,7 +40,7 @@ all_package_to_install = ['lame', 'gstreamer1-plugins-ugly',
                           'gstreamer-plugins-espeak', 'lame-libs', 
                           'libdvdread', 'gstreamer1-plugins-good-extras', 
                           'lsdvd', 'xine-lib-devel',
-                          'amrnb', 'gstreamer1-libav', 'gstreamer1-plugins-bad-freeworld', 
+                          'amrnb', 'gstreamer1-plugin-libav', 'gstreamer1-plugins-bad-freeworld', 
                           'gstreamer1-vaapi', 'ffmpeg-libs', 'gstreamer1-plugins-bad-free-extras']
 
                
