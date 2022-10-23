@@ -54,9 +54,3 @@ if desktop_utils.found()
   test('Validate desktop file', desktop_utils, args: [join_paths(get_option('datadir'), 'applications','com.github.yucefsourani.LUniversalInstaller.desktop')])
 endif
 
-gnome = import('gnome')
-gnome.post_install(
-     glib_compile_schemas: true,
-    gtk_update_icon_cache: true,
-  update_desktop_database: true,
-)
