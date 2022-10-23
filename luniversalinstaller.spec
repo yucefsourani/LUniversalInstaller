@@ -1,6 +1,6 @@
 Name:           luniversalinstaller
 Version:        0.2
-Release:        21%{?dist}
+Release:        22%{?dist}
 Summary:        Python+Gtk Universal Installer
 License:        GPLv3     
 URL:            https://github.com/yucefsourani/LUniversalInstaller
@@ -42,6 +42,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/doc/luniversalinstaller/LICENSE
 
 %changelog
+* Thu Oct 20 2022 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-22
+- Release 22
+
 * Thu Oct 20 2022 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-21
 - Release 21
 - Support fedora 37
