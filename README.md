@@ -38,13 +38,15 @@ python3-beautifulsoup4
 flatpak
 
 
-# Install 
+# Install (Require Meson)
 
 cd && git clone https://github.com/yucefsourani/LUniversalInstaller
 
 cd ~/LUniversalInstaller
 
-sudo ./setup.py install
+meson setup builddir
+
+sudo meson install -C builddir
 
 
 # Install on Fedora
