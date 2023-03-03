@@ -44,6 +44,7 @@ rm -rf $RPM_BUILD_ROOT
 %changelog
 * Fri Mar 3 2023 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-23
 - Release 23
+- Support Nobara
 
 * Thu Oct 20 2022 yucuf sourani <youssef.m.sourani@gmail.com> 0.2-22
 - Release 22
