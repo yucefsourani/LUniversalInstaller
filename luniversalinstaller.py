@@ -387,7 +387,7 @@ class AppWindow(Gtk.ApplicationWindow):
     def loading_all_plugins(self):
         splash = Splash()
         splash.start()
-        distro_name    = get_distro_name()
+        distro_name    = get_distro_name_like()
         distro_version = get_distro_version()
         all_plugins    = get_plugins()
         for module_name in all_plugins:
@@ -418,7 +418,8 @@ class AppWindow(Gtk.ApplicationWindow):
                     if arch not in arch_:
                         continue
                 if "all" not in distro_name_:
-                    if distro_name not in distro_name_:
+                    if not any([i for i in distro_name_ if i in distro_name]):
+                    #if distro_name not in distro_name_:
                         continue                 
                 if "all" not in distro_version_:
                     if distro_version not in distro_version_:
