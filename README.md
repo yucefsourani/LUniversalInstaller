@@ -1,3 +1,8 @@
+# Deprecated please try arfedora-weclome
+
+https://github.com/yucefsourani/arfedora-welcome
+
+
 # LUniversalInstaller
 https://arfedora.blogspot.com
 
